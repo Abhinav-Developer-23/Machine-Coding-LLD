@@ -9,25 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-
-
-        <module>Parking-Lot</module>
-        <module>Stack-Overflow</module>
-        <module>Vending-Machine</module>
-        <module>Logging-Framework</module>
-        <module>LinkedIn</module>
-        <module>Book-Store</module>
-        <module>Library-management-System</module>
-        <module>Movie-Ticket-Booking</module>
-        <module>Elevator-System</module>
-        <module>Tic-Tac-Toe</module>
-        <module>ATM-Machine</module>
-        <module>Rate-Limiter</module>
-        <module>Notification-System</module>
-        <module>Split-Wise</module>
-        <module>Snake-Ladder</module>
-        <module>quick-commerce-app</module>
-        <module>Razorpay</module>
     </modules>
 
     <properties>
