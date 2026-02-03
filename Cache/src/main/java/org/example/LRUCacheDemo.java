@@ -2,7 +2,7 @@ package org.example;
 
 public class LRUCacheDemo {
   public static void main(String[] args) {
-    LRUCache<String, Integer> cache = new LRUCache<>(3);
+    Cache<String, Integer> cache = new LRUCache<>(3);
 
     cache.put("a", 1);
     cache.put("b", 2);
