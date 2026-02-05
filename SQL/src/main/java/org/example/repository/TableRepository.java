@@ -1,49 +1,47 @@
 package org.example.repository;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import org.example.model.Table;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * Singleton repository for managing tables in the database.
- * Uses HashMap for O(1) table lookup operations.
- * Uses eager initialization for thread-safe singleton creation.
+ * Singleton repository for managing tables in the database. Uses HashMap for O(1) table lookup
+ * operations. Uses eager initialization for thread-safe singleton creation.
  */
 @Getter
 public class TableRepository {
-    
-    private static final TableRepository INSTANCE = new TableRepository();
-    private final Map<String, Table> tables;
 
-    private TableRepository() {
-        this.tables = new HashMap<>();
-    }
+  private static final TableRepository INSTANCE = new TableRepository();
+  private final Map<String, Table> tables;
 
-    public static TableRepository getInstance() {
-        return INSTANCE;
-    }
+  private TableRepository() {
+    this.tables = new HashMap<>();
+  }
 
-    public void createTable(Table table) {
-        if (tables.containsKey(table.getName())) {
-            throw new RuntimeException("Table already exists: " + table.getName());
-        }
-        tables.put(table.getName(), table);
-    }
+  public static TableRepository getInstance() {
+    return INSTANCE;
+  }
 
-    public Table getTable(String tableName) {
-        Table table = tables.get(tableName);
-        if (table == null) {
-            throw new RuntimeException("Table not found: " + tableName);
-        }
-        return table;
+  public void createTable(Table table) {
+    if (tables.containsKey(table.getName())) {
+      throw new RuntimeException("Table already exists: " + table.getName());
     }
+    tables.put(table.getName(), table);
+  }
 
-    public void deleteTable(String tableName) {
-        if (!tables.containsKey(tableName)) {
-            throw new RuntimeException("Table not found: " + tableName);
-        }
-        tables.remove(tableName);
+  public Table getTable(String tableName) {
+    Table table = tables.get(tableName);
+    if (table == null) {
+      throw new RuntimeException("Table not found: " + tableName);
     }
+    return table;
+  }
+
+  public void deleteTable(String tableName) {
+    if (!tables.containsKey(tableName)) {
+      throw new RuntimeException("Table not found: " + tableName);
+    }
+    tables.remove(tableName);
+  }
 }
