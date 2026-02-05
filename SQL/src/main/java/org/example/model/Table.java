@@ -71,7 +71,7 @@ public class Table {
         List<Row> result = new ArrayList<>();
         for (Row row : rows) {
             boolean matches = true;
-            for (Map.Entry<String, Object> filter : filters.entrySet()) {
+            for (var filter : filters.entrySet()) {
                 String columnName = filter.getKey();
                 Object filterValue = filter.getValue();
                 Object rowValue = row.getValue(columnName);

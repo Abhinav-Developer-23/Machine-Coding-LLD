@@ -9,12 +9,12 @@ import java.util.Map;
 /**
  * Singleton repository for managing tables in the database.
  * Uses HashMap for O(1) table lookup operations.
- * Uses Double-Checked Locking for thread-safe lazy initialization.
+ * Uses eager initialization for thread-safe singleton creation.
  */
 @Getter
 public class TableRepository {
     
-    private static volatile TableRepository instance;
+    private static final TableRepository INSTANCE = new TableRepository();
     private final Map<String, Table> tables;
 
     private TableRepository() {
@@ -22,14 +22,7 @@ public class TableRepository {
     }
 
     public static TableRepository getInstance() {
-        if (instance == null) {
-            synchronized (TableRepository.class) {
-                if (instance == null) {
-                    instance = new TableRepository();
-                }
-            }
-        }
-        return instance;
+        return INSTANCE;
     }
 
     public void createTable(Table table) {
