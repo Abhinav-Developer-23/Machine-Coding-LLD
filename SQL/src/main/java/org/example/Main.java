@@ -24,14 +24,17 @@ public class Main {
       List<Column> columns =
           Arrays.asList(
               new Column(
-                  "id", ColumnType.INT, true, List.of(new IntMinValueConstraint())), // min 1024
+                  "id", ColumnType.INT, true, List.of(new IntMinValueConstraint(1024))), // min 1024
               new Column(
                   "name",
                   ColumnType.STRING,
                   true,
-                  List.of(new StringMaxLengthConstraint())), // max 20 chars
+                  List.of(new StringMaxLengthConstraint(20))), // max 20 chars
               new Column(
-                  "department", ColumnType.STRING, false, List.of(new StringMaxLengthConstraint())),
+                  "department",
+                  ColumnType.STRING,
+                  false,
+                  List.of(new StringMaxLengthConstraint(20))),
               new Column(
                   "salary",
                   ColumnType.INT,

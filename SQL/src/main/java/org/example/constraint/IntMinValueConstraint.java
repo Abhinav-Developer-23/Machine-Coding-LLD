@@ -9,12 +9,7 @@ import lombok.Getter;
 @Getter
 public class IntMinValueConstraint implements Constraint {
 
-  public static final int DEFAULT_MIN_VALUE = 1024;
   private final int minValue;
-
-  public IntMinValueConstraint() {
-    this.minValue = DEFAULT_MIN_VALUE;
-  }
 
   public IntMinValueConstraint(int minValue) {
     this.minValue = minValue;

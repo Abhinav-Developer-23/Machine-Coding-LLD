@@ -20,24 +20,10 @@ public class Column {
   }
 
   public Column(String name, ColumnType type, boolean required, List<Constraint> constraints) {
-    validateName(name);
-    validateType(type);
     this.name = name;
     this.type = type;
     this.required = required;
     this.constraints = constraints == null ? new ArrayList<>() : new ArrayList<>(constraints);
-  }
-
-  private void validateName(String name) {
-    if (name == null || name.trim().isEmpty()) {
-      throw new RuntimeException("Column name cannot be null or empty");
-    }
-  }
-
-  private void validateType(ColumnType type) {
-    if (type == null) {
-      throw new RuntimeException("Column type cannot be null");
-    }
   }
 
   /** Validates a value against this column's type and constraints. */

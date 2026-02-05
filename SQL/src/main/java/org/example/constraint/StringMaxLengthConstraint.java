@@ -9,12 +9,7 @@ import lombok.Getter;
 @Getter
 public class StringMaxLengthConstraint implements Constraint {
 
-  public static final int DEFAULT_MAX_LENGTH = 20;
   private final int maxLength;
-
-  public StringMaxLengthConstraint() {
-    this.maxLength = DEFAULT_MAX_LENGTH;
-  }
 
   public StringMaxLengthConstraint(int maxLength) {
     if (maxLength <= 0) {
