@@ -63,12 +63,9 @@ public class DatabaseServiceImpl implements DatabaseService {
       return;
     }
 
-
     for (Row row : filteredRows) {
       System.out.println(row.toString());
     }
     System.out.println("Matching records: " + filteredRows.size());
   }
-
-
 }

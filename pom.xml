@@ -12,6 +12,7 @@
         <module>Cache</module>
         <module>HashMap</module>
         <module>SQL</module>
+        <module>Snake-Ladder-Game</module>
     </modules>
 
     <properties>
