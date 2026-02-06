@@ -1,6 +1,5 @@
 package org.example.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
@@ -64,33 +63,12 @@ public class DatabaseServiceImpl implements DatabaseService {
       return;
     }
 
-    printHeader(table);
-    printSeparator(table);
 
     for (Row row : filteredRows) {
-      System.out.println(row.toFormattedString(new ArrayList<>(table.getColumns().values())));
+      System.out.println(row.toString());
     }
-
-    printSeparator(table);
     System.out.println("Matching records: " + filteredRows.size());
   }
 
-  private void printHeader(Table table) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("| ");
-    for (Column column : table.getColumns().values()) {
-      sb.append(String.format("%-20s | ", column.getName() + " (" + column.getType() + ")"));
-    }
-    System.out.println(sb.toString());
-  }
 
-  private void printSeparator(Table table) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("+");
-    for (int i = 0; i < table.getColumns().size(); i++) {
-      sb.append("-".repeat(22));
-      sb.append("+");
-    }
-    System.out.println(sb.toString());
-  }
 }

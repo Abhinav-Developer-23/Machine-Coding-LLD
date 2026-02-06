@@ -1,7 +1,6 @@
 package org.example.model;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
@@ -34,16 +33,5 @@ public class Row {
   @Override
   public String toString() {
     return "Row{id='" + id + "', values=" + values + "}";
-  }
-
-  public String toFormattedString(List<Column> columns) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("| ");
-    for (Column column : columns) {
-      Object value = values.get(column.getName());
-      String displayValue = value == null ? "NULL" : value.toString();
-      sb.append(String.format("%-20s | ", displayValue));
-    }
-    return sb.toString();
   }
 }

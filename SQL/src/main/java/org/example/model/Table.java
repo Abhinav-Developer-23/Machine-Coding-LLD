@@ -94,45 +94,15 @@ public class Table {
   public void printAllRecords() {
     System.out.println("\n=== Table: " + name + " ===");
 
-    if (columns.isEmpty()) {
-      System.out.println("(No columns defined)");
-      return;
-    }
-
     if (rows.isEmpty()) {
       System.out.println("(No records)");
-      printColumnHeaders();
       return;
     }
 
-    printColumnHeaders();
-    printSeparator();
-
     for (Row row : rows) {
-      System.out.println(row.toFormattedString(new ArrayList<>(columns.values())));
+      System.out.println(row.toString());
     }
-
-    printSeparator();
     System.out.println("Total records: " + rows.size());
-  }
-
-  private void printColumnHeaders() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("| ");
-    for (Column column : columns.values()) {
-      sb.append(String.format("%-20s | ", column.getName() + " (" + column.getType() + ")"));
-    }
-    System.out.println(sb.toString());
-  }
-
-  private void printSeparator() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("+");
-    for (int i = 0; i < columns.size(); i++) {
-      sb.append("-".repeat(22));
-      sb.append("+");
-    }
-    System.out.println(sb.toString());
   }
 
   @Override
