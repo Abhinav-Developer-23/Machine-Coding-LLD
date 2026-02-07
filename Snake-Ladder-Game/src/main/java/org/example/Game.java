@@ -50,7 +50,7 @@ public class Game {
     System.out.println("Game started!");
 
     while (status == GameStatus.RUNNING) {
-      Player currentPlayer = players.poll();
+      Player currentPlayer = players.pollFirst();
       takeTurn(currentPlayer);
     }
 
