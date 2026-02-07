@@ -1,8 +1,8 @@
 package org.example;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import org.example.enums.GameStatus;
 import org.example.models.Board;
 import org.example.models.BoardEntity;
@@ -11,14 +11,14 @@ import org.example.models.Player;
 
 public class Game {
   private final Board board;
-  private final Queue<Player> players;
+  private final Deque<Player> players;
   private final Dice dice;
   private GameStatus status;
   private Player winner;
 
   /**
    * Private constructor that initializes the game using a Builder instance. Copies the board and
-   * dice references from the builder, creates a new LinkedList from the builder's player queue (to
+   * dice references from the builder, creates a new ArrayDeque from the builder's player deque (to
    * avoid sharing mutable state), and sets the initial game status to NOT_STARTED.
    *
    * @param builder the builder containing the configured board, players, and dice
@@ -35,9 +35,10 @@ public class Game {
    *
    * <p>1. Validates that at least 2 players are present; exits early if not. 2. Sets the game
    * status to RUNNING. 3. Enters the main game loop: in each iteration, the next player is removed
-   * from the front of the queue, takes their turn (which may include bonus turns on rolling a 6),
-   * and is then added back to the end of the queue -- unless the game has ended during their turn.
-   * 4. Once a player wins (status becomes FINISHED), the loop exits and the winner is announced.
+   * from the front of the deque via {@code pollFirst()} and {@code takeTurn} is called. {@code
+   * takeTurn} handles movement, win detection, and re-queuing the player (front on a 6, back
+   * otherwise). 4. Once a player wins (status becomes FINISHED), the loop exits and the winner is
+   * announced.
    */
   public void play() {
     if (players.size() < 2) {
@@ -51,11 +52,6 @@ public class Game {
     while (status == GameStatus.RUNNING) {
       Player currentPlayer = players.poll();
       takeTurn(currentPlayer);
-
-      // If the game is still running, add the player back to the end of the queue
-      if (status == GameStatus.RUNNING) {
-        players.add(currentPlayer);
-      }
     }
 
     System.out.println("Game Finished!");
@@ -65,18 +61,19 @@ public class Game {
   }
 
   /**
-   * Executes a single turn for the given player.
+   * Executes a single turn for the given player, then re-queues them in the deque.
    *
    * <p>1. Rolls the dice to get a random value. 2. Computes the tentative next position (current +
    * roll). 3. Overshoot check: if the next position exceeds the board size, the player cannot move
    * and the turn is skipped (must land exactly on the last square). 4. Win check: if the next
    * position equals the board size exactly, the player wins -- their position is updated, the
-   * winner is recorded, and the game status is set to FINISHED. 5. Snake/Ladder resolution: the
-   * board is queried for a snake or ladder at the landing square. If a ladder exists (final >
-   * next), the player climbs up. If a snake exists (final < next), the player slides down.
-   * Otherwise, the player stays at the landed position. 6. Updates the player's position to the
-   * resolved final position. 7. Bonus turn: if the dice roll was a 6, the method calls itself
-   * recursively to grant the player an additional turn.
+   * winner is recorded, the game status is set to FINISHED, and the method returns without
+   * re-queuing. 5. Snake/Ladder resolution: the board is queried for a snake or ladder at the
+   * landing square. If a ladder exists (final > next), the player climbs up. If a snake exists
+   * (final < next), the player slides down. Otherwise, the player stays at the landed position. 6.
+   * Updates the player's position to the resolved final position. 7. Re-queues the player: if the
+   * roll was a 6, adds to the front of the deque via {@code addFirst()} for a bonus turn; otherwise
+   * adds to the back via {@code addLast()} for normal rotation.
    *
    * @param player the player whose turn it is
    */
@@ -91,38 +88,38 @@ public class Game {
       System.out.printf(
           "Oops, %s needs to land exactly on %d. Turn skipped.\n",
           player.getName(), board.getSize());
-      return;
-    }
-
-    if (nextPosition == board.getSize()) {
+    } else if (nextPosition == board.getSize()) {
       player.setPosition(nextPosition);
       this.winner = player;
       this.status = GameStatus.FINISHED;
       System.out.printf(
           "Hooray! %s reached the final square %d and won!\n", player.getName(), board.getSize());
       return;
-    }
-
-    int finalPosition = board.getFinalPosition(nextPosition);
-
-    if (finalPosition > nextPosition) { // Ladder
-      System.out.printf(
-          "Wow! %s found a ladder 🪜 at %d and climbed to %d.\n",
-          player.getName(), nextPosition, finalPosition);
-    } else if (finalPosition < nextPosition) { // Snake
-      System.out.printf(
-          "Oh no! %s was bitten by a snake 🐍 at %d and slid down to %d.\n",
-          player.getName(), nextPosition, finalPosition);
     } else {
-      System.out.printf(
-          "%s moved from %d to %d.\n", player.getName(), currentPosition, finalPosition);
+      int finalPosition = board.getFinalPosition(nextPosition);
+
+      if (finalPosition > nextPosition) { // Ladder
+        System.out.printf(
+            "Wow! %s found a ladder at %d and climbed to %d.\n",
+            player.getName(), nextPosition, finalPosition);
+      } else if (finalPosition < nextPosition) { // Snake
+        System.out.printf(
+            "Oh no! %s was bitten by a snake at %d and slid down to %d.\n",
+            player.getName(), nextPosition, finalPosition);
+      } else {
+        System.out.printf(
+            "%s moved from %d to %d.\n", player.getName(), currentPosition, finalPosition);
+      }
+
+      player.setPosition(finalPosition);
     }
 
-    player.setPosition(finalPosition);
-
+    // Re-queue the player: bonus turn (front) on a 6, normal rotation (back) otherwise
     if (roll == 6) {
       System.out.printf("%s rolled a 6 and gets another turn!\n", player.getName());
-      takeTurn(player);
+      players.addFirst(player);
+    } else {
+      players.addLast(player);
     }
   }
 
@@ -132,7 +129,7 @@ public class Game {
    */
   public static class Builder {
     private Board board;
-    private Queue<Player> players;
+    private Deque<Player> players;
     private Dice dice;
 
     /**
@@ -151,8 +148,8 @@ public class Game {
 
     /**
      * Creates players from the given list of names. Each name is used to instantiate a new {@link
-     * Player} (starting at position 0), and all players are added to a LinkedList queue that
-     * determines turn order.
+     * Player} (starting at position 0), and all players are added to an ArrayDeque that determines
+     * turn order.
      *
      * @param playerNames the names of the players, in turn order
      * @return this builder for method chaining

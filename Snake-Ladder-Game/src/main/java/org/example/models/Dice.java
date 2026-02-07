@@ -1,8 +1,7 @@
 package org.example.models;
 
-import lombok.Data;
-
 import java.util.Random;
+import lombok.Data;
 
 @Data
 public class Dice {
