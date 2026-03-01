@@ -14,6 +14,7 @@
         <module>HashMap</module>
         <module>SQL</module>
         <module>Snake-Ladder-Game</module>
+        <module>PubSub</module>
     </modules>
 
     <properties>
