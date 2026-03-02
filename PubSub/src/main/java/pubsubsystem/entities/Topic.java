@@ -10,7 +10,7 @@ public class Topic {
     @Getter
     private final String name;
     private final Set<Subscriber> subscribers;
-    private final ExecutorService deliveryExecutor;
+    private final ThreadPoolExecutor deliveryExecutor;
 
     public Topic(String name) {
         this.name = name;
