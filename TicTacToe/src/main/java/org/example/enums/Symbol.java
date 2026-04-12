@@ -1,17 +1,17 @@
 package org.example.enums;
 
 public enum Symbol {
-    X('X'),
-    O('O'),
-    EMPTY('_');
+  X('X'),
+  O('O'),
+  EMPTY('_');
 
-    private final char displayChar;
+  private final char displayChar;
 
-    Symbol(char displayChar) {
-        this.displayChar = displayChar;
-    }
+  Symbol(char displayChar) {
+    this.displayChar = displayChar;
+  }
 
-    public char getDisplayChar() {
-        return displayChar;
-    }
+  public char getDisplayChar() {
+    return displayChar;
+  }
 }

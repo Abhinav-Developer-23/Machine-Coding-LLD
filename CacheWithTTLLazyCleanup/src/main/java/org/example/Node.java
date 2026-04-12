@@ -1,8 +1,6 @@
 package org.example;
 
-/**
- * Doubly-linked list node used internally by the LRU cache.
- */
+/** Doubly-linked list node used internally by the LRU cache. */
 class Node<K, V> {
 
   K key;

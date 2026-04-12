@@ -1,8 +1,6 @@
 package org.example;
 
-/**
- * Generic Cache interface.
- */
+/** Generic Cache interface. */
 public interface Cache<K, V> {
 
   V get(K key);

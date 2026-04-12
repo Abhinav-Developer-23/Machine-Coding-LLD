@@ -1,8 +1,6 @@
 package org.example;
 
-/**
- * Minimal doubly-linked list for LRU ordering.
- */
+/** Minimal doubly-linked list for LRU ordering. */
 class DoublyLinkedList<K, V> {
 
   private final Node<K, V> head;

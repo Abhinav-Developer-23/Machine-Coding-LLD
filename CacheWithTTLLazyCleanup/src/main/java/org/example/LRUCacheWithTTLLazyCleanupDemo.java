@@ -1,8 +1,6 @@
 package org.example;
 
-/**
- * Demo for the LRU cache with TTL and lazy cleanup only.
- */
+/** Demo for the LRU cache with TTL and lazy cleanup only. */
 public class LRUCacheWithTTLLazyCleanupDemo {
 
   public static void main(String[] args) throws InterruptedException {

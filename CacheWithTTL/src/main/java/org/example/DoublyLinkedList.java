@@ -4,8 +4,8 @@ package org.example;
  * Minimal doubly-linked list used by the LRU cache.
  *
  * <ul>
- *   <li><b>head.next</b> → most-recently used (MRU) end</li>
- *   <li><b>tail.prev</b> → least-recently used (LRU) end</li>
+ *   <li><b>head.next</b> → most-recently used (MRU) end
+ *   <li><b>tail.prev</b> → least-recently used (LRU) end
  * </ul>
  *
  * Sentinel head and tail nodes simplify all edge cases (no null checks needed).
@@ -16,28 +16,28 @@ class DoublyLinkedList<K, V> {
   private final Node<K, V> tail; // dummy LRU sentinel
 
   DoublyLinkedList() {
-    head      = new Node<>(null, null);
-    tail      = new Node<>(null, null);
+    head = new Node<>(null, null);
+    tail = new Node<>(null, null);
     head.next = tail;
     tail.prev = head;
   }
 
   // ── public API ──────────────────────────────────────────────────────────────
 
-  /** Insert {@code node} right after the head  →  MRU position. */
+  /** Insert {@code node} right after the head → MRU position. */
   void addFirst(Node<K, V> node) {
-    node.next      = head.next;
-    node.prev      = head;
+    node.next = head.next;
+    node.prev = head;
     head.next.prev = node;
-    head.next      = node;
+    head.next = node;
   }
 
-  /** Insert {@code node} right before the tail  →  LRU position. */
+  /** Insert {@code node} right before the tail → LRU position. */
   void addLast(Node<K, V> node) {
-    node.prev      = tail.prev;
-    node.next      = tail;
+    node.prev = tail.prev;
+    node.next = tail;
     tail.prev.next = node;
-    tail.prev      = node;
+    tail.prev = node;
   }
 
   /** Unlink {@code node} from wherever it sits (does NOT clear its pointers). */
@@ -64,7 +64,9 @@ class DoublyLinkedList<K, V> {
     return lru;
   }
 
-  /** @return {@code true} if the list contains no real nodes. */
+  /**
+   * @return {@code true} if the list contains no real nodes.
+   */
   boolean isEmpty() {
     return head.next == tail;
   }

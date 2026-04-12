@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
 /**
  * Thread-safe LRU cache with per-entry TTL.
  *
- * This variant does not use any scheduler/background thread.
- * Expired entries are removed lazily during get/put/size calls.
+ * <p>This variant does not use any scheduler/background thread. Expired entries are removed lazily
+ * during get/put/size calls.
  */
 public class LRUCacheWithTTLLazyCleanup<K, V> implements Cache<K, V> {
 

@@ -5,12 +5,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Runnable demo for the TTL-based LRU cache.
  *
- * Scenarios covered:
- *  1. Basic LRU eviction (capacity enforcement)
- *  2. TTL expiry detected lazily on GET
- *  3. Lazy cleanup on PUT frees expired slots so capacity is not wasted
- *  4. Manual remove
- *  5. Background cleanup (triggered explicitly for demo purposes)
+ * <p>Scenarios covered: 1. Basic LRU eviction (capacity enforcement) 2. TTL expiry detected lazily
+ * on GET 3. Lazy cleanup on PUT frees expired slots so capacity is not wasted 4. Manual remove 5.
+ * Background cleanup (triggered explicitly for demo purposes)
  */
 public class LRUCacheWithTTLDemo {
 
@@ -39,9 +36,9 @@ public class LRUCacheWithTTLDemo {
     LRUCacheWithTTL<String, String> ttlCache =
         new LRUCacheWithTTL<>(5, 60, TimeUnit.SECONDS); // slow bg sweep for demo
 
-    ttlCache.put("session:1", "user-alice", 200);  // expires in 200 ms
-    ttlCache.put("session:2", "user-bob",   5000); // expires in 5 s
-    ttlCache.put("permanent", "admin",      -1);   // no TTL
+    ttlCache.put("session:1", "user-alice", 200); // expires in 200 ms
+    ttlCache.put("session:2", "user-bob", 5000); // expires in 5 s
+    ttlCache.put("permanent", "admin", -1); // no TTL
 
     System.out.println("Before expiry:");
     System.out.println("  session:1  = " + ttlCache.get("session:1")); // user-alice
@@ -57,11 +54,10 @@ public class LRUCacheWithTTLDemo {
 
     // ── 3. Lazy cleanup on PUT ────────────────────────────────────────────
     System.out.println("\n── Scenario 3: Lazy cleanup on PUT reclaims expired slots ──");
-    LRUCacheWithTTL<Integer, String> putCache =
-        new LRUCacheWithTTL<>(3, 60, TimeUnit.SECONDS);
+    LRUCacheWithTTL<Integer, String> putCache = new LRUCacheWithTTL<>(3, 60, TimeUnit.SECONDS);
 
-    putCache.put(1, "one",   150); // expires in 150 ms
-    putCache.put(2, "two",   150);
+    putCache.put(1, "one", 150); // expires in 150 ms
+    putCache.put(2, "two", 150);
     putCache.put(3, "three", 150);
     System.out.println("size before expiry = " + putCache.size()); // 3
 
@@ -84,11 +80,10 @@ public class LRUCacheWithTTLDemo {
 
     // ── 5. Background cleanup (triggered manually for demo) ───────────────
     System.out.println("\n── Scenario 5: Background cleanup ──");
-    LRUCacheWithTTL<String, Integer> bgCache =
-        new LRUCacheWithTTL<>(10, 60, TimeUnit.SECONDS);
-    bgCache.put("x", 100, 50);  // expires in 50 ms
+    LRUCacheWithTTL<String, Integer> bgCache = new LRUCacheWithTTL<>(10, 60, TimeUnit.SECONDS);
+    bgCache.put("x", 100, 50); // expires in 50 ms
     bgCache.put("y", 200, 50);
-    bgCache.put("z", 300);      // no TTL
+    bgCache.put("z", 300); // no TTL
     Thread.sleep(100);
 
     System.out.println("size before bg-cleanup = " + bgCache.size()); // 3 (stale in map)
