@@ -11,6 +11,7 @@
     <modules>
         <module>Cache</module>
         <module>CacheWithTTL</module>
+        <module>CacheWithTTLLazyCleanup</module>
         <module>HashMap</module>
         <module>SQL</module>
         <module>Snake-Ladder-Game</module>
