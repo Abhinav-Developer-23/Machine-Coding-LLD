@@ -16,6 +16,7 @@
         <module>SQL</module>
         <module>Snake-Ladder-Game</module>
         <module>PubSub</module>
+        <module>TicTacToe</module>
     </modules>
 
     <properties>
