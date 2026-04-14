@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.example.enums.ResidentDecision;
 import org.example.enums.VisitorType;
 import org.example.model.House;
@@ -88,7 +89,13 @@ public class VisitorManagementService {
     String requestId = "VR-" + requestSequence.getAndIncrement();
     VisitorRequest request =
         new VisitorRequest(
-            requestId, societyId, house.getId(), visitorName, visitorType, purpose, securityPersonName);
+            requestId,
+            societyId,
+            house.getId(),
+            visitorName,
+            visitorType,
+            purpose,
+            securityPersonName);
     requestsById.put(requestId, request);
     return request;
   }

@@ -21,6 +21,9 @@
         <module>Splitwise</module>
         <module>ParkingLot</module>
         <module>VisitorManagement</module>
+        <module>ElevatorSystem</module>
+        <module>InventoryManagement</module>
+        <module>CarRentalSystem</module>
     </modules>
 
     <properties>

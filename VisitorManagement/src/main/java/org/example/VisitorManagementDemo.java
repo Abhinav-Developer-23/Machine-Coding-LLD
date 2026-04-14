@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.List;
+
 import org.example.enums.ResidentDecision;
 import org.example.enums.VisitorType;
 import org.example.model.House;
@@ -59,7 +60,8 @@ public class VisitorManagementDemo {
             "Food delivery",
             "Security-Gate-2");
 
-    List<VisitorRequest> pendingForA101 = service.getPendingRequestsForHouse(greenHeights.getId(), "A-101");
+    List<VisitorRequest> pendingForA101 =
+        service.getPendingRequestsForHouse(greenHeights.getId(), "A-101");
     System.out.println("Pending A-101 requests: " + pendingForA101);
 
     System.out.println("\n=== Residents Decide Requests ===");
