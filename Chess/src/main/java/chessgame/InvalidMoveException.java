@@ -1,7 +1,7 @@
-package org.example.exceptions;
+package chessgame;
 
 public class InvalidMoveException extends RuntimeException {
-  public InvalidMoveException(String message) {
+  public InvalidMoveException(final String message) {
     super(message);
   }
 }

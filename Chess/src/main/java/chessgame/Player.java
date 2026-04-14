@@ -1,6 +1,4 @@
-package org.example.models;
-
-import org.example.enums.Color;
+package chessgame;
 
 public class Player {
   private final String name;
@@ -11,16 +9,11 @@ public class Player {
     this.color = color;
   }
 
-  public String getName() {
-    return name;
-  }
-
   public Color getColor() {
     return color;
   }
 
-  @Override
-  public String toString() {
-    return String.format("%s (%s)", name, color);
+  public String getName() {
+    return name;
   }
 }
