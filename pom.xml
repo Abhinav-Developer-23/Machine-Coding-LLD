@@ -20,6 +20,7 @@
         <module>Chess</module>
         <module>Splitwise</module>
         <module>ParkingLot</module>
+        <module>VisitorManagement</module>
     </modules>
 
     <properties>
