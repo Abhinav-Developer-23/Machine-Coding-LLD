@@ -18,6 +18,7 @@
         <module>PubSub</module>
         <module>TicTacToe</module>
         <module>Chess</module>
+        <module>Splitwise</module>
     </modules>
 
     <properties>
