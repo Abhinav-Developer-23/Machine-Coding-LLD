@@ -17,6 +17,7 @@
         <module>Snake-Ladder-Game</module>
         <module>PubSub</module>
         <module>TicTacToe</module>
+        <module>Chess</module>
     </modules>
 
     <properties>
