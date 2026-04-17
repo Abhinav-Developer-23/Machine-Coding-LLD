@@ -1,4 +1,4 @@
-package org.example;
+package org.example.splitwise.entities;
 
 public class Transaction {
   private final User from;

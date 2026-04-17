@@ -1,7 +1,9 @@
-package org.example;
+package org.example.splitwise.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.example.splitwise.entities.Split;
+import org.example.splitwise.entities.User;
 
 public class EqualSplitStrategy implements SplitStrategy {
   @Override

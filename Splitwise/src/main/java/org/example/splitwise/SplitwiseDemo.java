@@ -1,7 +1,15 @@
-package org.example;
+package org.example.splitwise;
 
 import java.util.Arrays;
 import java.util.List;
+import org.example.splitwise.entities.Expense;
+import org.example.splitwise.entities.Group;
+import org.example.splitwise.entities.Transaction;
+import org.example.splitwise.entities.User;
+import org.example.splitwise.service.SplitwiseService;
+import org.example.splitwise.strategy.EqualSplitStrategy;
+import org.example.splitwise.strategy.ExactSplitStrategy;
+import org.example.splitwise.strategy.PercentageSplitStrategy;
 
 public class SplitwiseDemo {
   public static void main(String[] args) {

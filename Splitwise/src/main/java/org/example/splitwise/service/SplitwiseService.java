@@ -1,4 +1,4 @@
-package org.example;
+package org.example.splitwise.service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.example.splitwise.entities.Expense;
+import org.example.splitwise.entities.Group;
+import org.example.splitwise.entities.Split;
+import org.example.splitwise.entities.Transaction;
+import org.example.splitwise.entities.User;
 
 public class SplitwiseService {
   private static SplitwiseService instance;

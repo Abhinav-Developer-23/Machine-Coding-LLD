@@ -1,8 +1,9 @@
-package org.example;
+package org.example.splitwise.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import org.example.splitwise.strategy.SplitStrategy;
 
 public class Expense {
   private final String id;

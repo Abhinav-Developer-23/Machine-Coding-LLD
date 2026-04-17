@@ -24,6 +24,7 @@
         <module>ElevatorSystem</module>
         <module>InventoryManagement</module>
         <module>CarRentalSystem</module>
+        <module>StockBrokerage</module>
     </modules>
 
     <properties>
