@@ -25,6 +25,8 @@
         <module>InventoryManagement</module>
         <module>CarRentalSystem</module>
         <module>MeetingScheduler</module>
+        <module>DeliverySystem</module>
+        <module>WebCrawler</module>
 
     </modules>
 

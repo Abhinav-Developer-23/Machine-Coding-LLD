@@ -7,46 +7,46 @@ patterns and OO modeling. Treat every sub-project as a standalone exercise.
 # Coding Standards
 
 - Apply **SOLID principles** rigorously — especially SRP and DIP.
-- Model the domain with appropriate **GoF design patterns** (Strategy, Factory,
-  Observer, State, Singleton, etc.). Prefer the simplest pattern that fits;
-  do not over-engineer.
-- Use **clean OO code**: encapsulated fields, meaningful names, constructor
-  injection for dependencies, interfaces at seams.
-- Use **Lombok `@Getter`** on model/domain classes instead of hand-written
-  getters. Prefer `@Getter` at the class level; avoid `@Data`/`@Setter` unless
-  mutability is genuinely required.
-- Write **imperative Java** (plain `for` loops, `if/else`) — avoid Streams and
-  functional chains unless explicitly asked.
-- No speculative abstractions, no unused hooks, no premature generalization.
+  - Model the domain with appropriate **GoF design patterns** (Strategy, Factory,
+    Observer, State, Singleton, etc.). Prefer the simplest pattern that fits;
+    do not over-engineer.
+  - Use **clean OO code**: encapsulated fields, meaningful names, constructor
+    injection for dependencies, interfaces at seams.
+  - Use **Lombok `@Getter`** on model/domain classes instead of hand-written
+    getters. Prefer `@Getter` at the class level; avoid `@Data`/`@Setter` unless
+    mutability is genuinely required.
+  - Write **imperative Java** (plain `for` loops, `if/else`) — avoid Streams and
+    functional chains unless explicitly asked.
+  - No speculative abstractions, no unused hooks, no premature generalization.
 
 # Architecture
 
 Always follow **Layered Architecture** in this order:
 
 1. **Controller / Runner** — entry point, wires everything together, runs the demo
-2. **Service Layer** — all business logic lives here
-3. **Repository Layer** — in-memory data store using `ConcurrentHashMap` use static concurrent hashmap and use that directly in service clas
-4. **Models (Entities)** — plain domain objects with `@Getter`
-5. **Enums** — named constants for states, types, roles
-6. **Strategies** — pluggable algorithms (if needed)
+   2. **Service Layer** — all business logic lives here
+   3. **Repository Layer** — in-memory data store using `ConcurrentHashMap` use static concurrent hashmap and use that directly in service clas
+   4. **Models (Entities)** — plain domain objects with `@Getter`
+   5. **Enums** — named constants for states, types, roles
+   6. **Strategies** — pluggable algorithms (if needed)
 
 ## Repository Design
 
 - Use a `static ConcurrentHashMap` inside the repository class
-- Keep it simple — no DB-level complexity, no ORM abstractions
-- Focus on solving the domain problem, not infrastructure
+  - Keep it simple — no DB-level complexity, no ORM abstractions
+  - Focus on solving the domain problem, not infrastructure
 
 ## Service Layer
 
 - Max **1–2 service classes** per sub-project
-- All business logic goes here — nothing in controllers or repositories
-- Inject repositories via constructor
+  - All business logic goes here — nothing in controllers or repositories
+  - Inject repositories via constructor
 
 # Build & Formatting
 
 - Code **must be compilable at all times**. After any edit, ensure the project
   still builds (`mvn compile` in the affected sub-project). Never leave the
   repo in a broken state between steps.
-- After any **large refactor** (renames, package moves, multi-file structural
-  changes), run `mvn spotless:apply` in the affected sub-project to normalize
-  formatting before handing control back.
+  - After any **large refactor** (renames, package moves, multi-file structural
+    changes), run `mvn spotless:apply` in the affected sub-project to normalize
+    formatting before handing control back.
