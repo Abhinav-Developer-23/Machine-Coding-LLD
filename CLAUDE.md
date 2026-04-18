@@ -1,4 +1,5 @@
 # Repository Context
+Do not see other modules and try to copy , do this fresh
 
 This is a **Low-Level Design (LLD) machine-coding practice repository**. Each
 top-level directory is an independent LLD problem I use to revise design

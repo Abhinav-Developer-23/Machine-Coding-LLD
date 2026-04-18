@@ -26,6 +26,7 @@
         <module>CarRentalSystem</module>
 
         <module>MeetingScheduler</module>
+        <module>StockBrokerage</module>
     </modules>
 
     <properties>
