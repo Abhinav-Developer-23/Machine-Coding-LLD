@@ -1,5 +1,4 @@
 # Repository Context
-Do not see other modules and try to copy , do this fresh
 
 This is a **Low-Level Design (LLD) machine-coding practice repository**. Each
 top-level directory is an independent LLD problem I use to revise design
@@ -19,6 +18,29 @@ patterns and OO modeling. Treat every sub-project as a standalone exercise.
 - Write **imperative Java** (plain `for` loops, `if/else`) — avoid Streams and
   functional chains unless explicitly asked.
 - No speculative abstractions, no unused hooks, no premature generalization.
+
+# Architecture
+
+Always follow **Layered Architecture** in this order:
+
+1. **Controller / Runner** — entry point, wires everything together, runs the demo
+2. **Service Layer** — all business logic lives here
+3. **Repository Layer** — in-memory data store using `ConcurrentHashMap` use static concurrent hashmap and use that directly in service clas
+4. **Models (Entities)** — plain domain objects with `@Getter`
+5. **Enums** — named constants for states, types, roles
+6. **Strategies** — pluggable algorithms (if needed)
+
+## Repository Design
+
+- Use a `static ConcurrentHashMap` inside the repository class
+- Keep it simple — no DB-level complexity, no ORM abstractions
+- Focus on solving the domain problem, not infrastructure
+
+## Service Layer
+
+- Max **1–2 service classes** per sub-project
+- All business logic goes here — nothing in controllers or repositories
+- Inject repositories via constructor
 
 # Build & Formatting
 
