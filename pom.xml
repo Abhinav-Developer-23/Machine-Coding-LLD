@@ -24,8 +24,7 @@
         <module>ElevatorSystem</module>
         <module>InventoryManagement</module>
         <module>CarRentalSystem</module>
-        <module>StockBrokerage</module>
-        <module>Zerodha</module>
+
         <module>MeetingScheduler</module>
     </modules>
 
