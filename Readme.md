@@ -14,8 +14,8 @@ Always follow **layered architecture**:
 ## Repository design
 
 - Use a static `ConcurrentHashMap` in the repository.
-- Keep the repo simple — no DB-level complexity.
-- Focus on solving the problem, not infrastructure.
+  - Keep the repo simple — no DB-level complexity.
+  - Focus on solving the problem, not infrastructure.
 
 ## Service layer
 
