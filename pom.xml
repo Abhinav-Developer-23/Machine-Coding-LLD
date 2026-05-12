@@ -15,6 +15,7 @@
         <module>HashMap</module>
         <module>SQL</module>
         <module>Snake-Ladder-Game</module>
+        <module>Snake-Food-Game</module>
         <module>PubSub</module>
         <module>TicTacToe</module>
         <module>Chess</module>
@@ -27,6 +28,7 @@
         <module>MeetingScheduler</module>
         <module>DeliverySystem</module>
         <module>WebCrawler</module>
+        <module>FileSystem</module>
 
     </modules>
 
