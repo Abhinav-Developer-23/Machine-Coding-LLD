@@ -2,6 +2,12 @@ package org.example.filesystem.command;
 
 import org.example.filesystem.FileSystem;
 
+/**
+ * Writes {@code content} to {@code filePath} on the given {@link FileSystem}.
+ *
+ * <p>Models shell {@code echo text > file}: redirection is not parsed here; the caller supplies the
+ * path and text after any parsing.
+ */
 public class EchoCommand implements Command {
   private final FileSystem fs;
   private final String content;

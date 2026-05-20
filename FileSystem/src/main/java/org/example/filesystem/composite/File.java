@@ -11,7 +11,7 @@ public class File extends FileSystemNode {
     this.content = "";
   }
 
-    public void setContent(String content) {
+  public void setContent(String content) {
     this.content = content;
   }
 }

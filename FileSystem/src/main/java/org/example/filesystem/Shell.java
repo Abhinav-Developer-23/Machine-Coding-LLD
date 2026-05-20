@@ -4,6 +4,18 @@ import java.util.Arrays;
 import org.example.filesystem.command.*;
 import org.example.filesystem.strategy.*;
 
+/**
+ * A <em>shell</em> is the layer between a person (or test harness) typing text commands and the
+ * underlying system that actually performs work. It reads a line of input, figures out which
+ * operation was requested, and runs it—much like {@code bash} or {@code cmd.exe} sit between you
+ * and the operating system.
+ *
+ * <p>This class is necessary because raw {@link FileSystem} APIs describe <em>what</em> the
+ * filesystem can do (mkdir, read, write, etc.), but not the <em>text protocol</em> users type. The
+ * shell owns parsing and dispatch: it splits the input line, chooses the right {@link Command}, and
+ * executes it against the shared {@link FileSystem} instance. Without it, every caller would
+ * duplicate command names, argument rules, and error handling.
+ */
 public class Shell {
   private final FileSystem fs;
 
