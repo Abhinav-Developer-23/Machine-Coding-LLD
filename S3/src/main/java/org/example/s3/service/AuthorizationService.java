@@ -4,13 +4,12 @@ import org.example.s3.enums.Permission;
 import org.example.s3.model.Bucket;
 import org.example.s3.model.S3Object;
 import org.example.s3.strategy.AuthorizationStrategy;
-import org.example.s3.strategy.FileAclOverrideAuthorizationStrategy;
 
 public class AuthorizationService {
   private final AuthorizationStrategy authorizationStrategy;
 
   public AuthorizationService() {
-    this(new FileAclOverrideAuthorizationStrategy());
+    this(new AuthorizationStrategy());
   }
 
   public AuthorizationService(AuthorizationStrategy authorizationStrategy) {

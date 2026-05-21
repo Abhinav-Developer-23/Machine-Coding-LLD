@@ -6,12 +6,12 @@ import org.example.s3.repository.BucketRepository;
 import org.example.s3.repository.S3ObjectRepository;
 import org.example.s3.service.AuthorizationService;
 import org.example.s3.service.S3Service;
-import org.example.s3.strategy.FileAclOverrideAuthorizationStrategy;
+import org.example.s3.strategy.AuthorizationStrategy;
 
 public class S3Demo {
   public static void main(String[] args) {
     AuthorizationService authorizationService =
-        new AuthorizationService(new FileAclOverrideAuthorizationStrategy());
+        new AuthorizationService(new AuthorizationStrategy());
     S3Service s3Service =
         new S3Service(
             BucketRepository.getInstance(), S3ObjectRepository.getInstance(), authorizationService);
@@ -38,8 +38,19 @@ public class S3Demo {
         "Alice reads updated design: " + s3Service.readFile(alice, "docs", "design.txt"));
 
     s3Service.grantFilePermission(alice, "docs", "design.txt", charlie, Permission.WRITE);
+    s3Service.updateFile(charlie, "docs", "design.txt", "v3 design", Map.of("type", "text"));
     System.out.println(
-        "Charlie files after file-level WRITE only: " + s3Service.listFiles(charlie, "docs"));
+        "Alice reads updated design (by Charlie): " + s3Service.readFile(alice, "docs", "design.txt"));
+
+    s3Service.revokeFilePermission(alice, "docs", "design.txt", charlie, Permission.WRITE);
+    try {
+      s3Service.updateFile(charlie, "docs", "design.txt", "v4 design", Map.of("type", "text"));
+    } catch (SecurityException ex) {
+      System.out.println("Charlie update denied because WRITE permission on design.txt was revoked");
+    }
+
+    System.out.println(
+        "Charlie files after file-level permission revoke: " + s3Service.listFiles(charlie, "docs"));
     try {
       s3Service.readFile(charlie, "docs", "design.txt");
     } catch (SecurityException ex) {
