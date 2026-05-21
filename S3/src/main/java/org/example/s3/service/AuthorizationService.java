@@ -3,23 +3,27 @@ package org.example.s3.service;
 import org.example.s3.enums.Permission;
 import org.example.s3.model.Bucket;
 import org.example.s3.model.S3Object;
+import org.example.s3.strategy.AuthorizationStrategy;
+import org.example.s3.strategy.FileAclOverrideAuthorizationStrategy;
 
 public class AuthorizationService {
+  private final AuthorizationStrategy authorizationStrategy;
+
+  public AuthorizationService() {
+    this(new FileAclOverrideAuthorizationStrategy());
+  }
+
+  public AuthorizationService(AuthorizationStrategy authorizationStrategy) {
+    this.authorizationStrategy = authorizationStrategy;
+  }
+
   public boolean canAccessBucket(String userId, Bucket bucket, Permission permission) {
-    return isBucketOwner(userId, bucket) || bucket.getAcl().allows(userId, permission);
+    return authorizationStrategy.canAccessBucket(userId, bucket, permission);
   }
 
   public boolean canAccessObject(
       String userId, Bucket bucket, S3Object object, Permission permission) {
-    if (isBucketOwner(userId, bucket) || isObjectOwner(userId, object)) {
-      return true;
-    }
-
-    if (object.getAcl().hasEntryFor(userId)) {
-      return object.getAcl().allows(userId, permission);
-    }
-
-    return bucket.getAcl().allows(userId, permission);
+    return authorizationStrategy.canAccessObject(userId, bucket, object, permission);
   }
 
   public void requireBucketOwner(String userId, Bucket bucket) {

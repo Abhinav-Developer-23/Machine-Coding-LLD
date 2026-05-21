@@ -6,10 +6,12 @@ import org.example.s3.repository.BucketRepository;
 import org.example.s3.repository.S3ObjectRepository;
 import org.example.s3.service.AuthorizationService;
 import org.example.s3.service.S3Service;
+import org.example.s3.strategy.FileAclOverrideAuthorizationStrategy;
 
 public class S3Demo {
   public static void main(String[] args) {
-    AuthorizationService authorizationService = new AuthorizationService();
+    AuthorizationService authorizationService =
+        new AuthorizationService(new FileAclOverrideAuthorizationStrategy());
     S3Service s3Service =
         new S3Service(
             BucketRepository.getInstance(), S3ObjectRepository.getInstance(), authorizationService);
