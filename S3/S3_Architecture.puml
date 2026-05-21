@@ -1,0 +1,135 @@
+@startuml S3_Architecture
+
+skinparam BackgroundColor #FDFDFD
+skinparam Handwritten false
+skinparam Roundcorner 8
+skinparam Shadowing true
+
+skinparam Class {
+    BackgroundColor #FFFFFF
+    BorderColor #1A5276
+    ArrowColor #2E86C1
+    FontName "Segoe UI"
+    FontSize 12
+    AttributeFontName "Consolas"
+    AttributeFontSize 10
+}
+
+package org.example.s3 {
+    package controller {
+        class S3Demo {
+            + {static} void main(String[] args)
+        }
+    }
+
+    package service {
+        class S3Service {
+            - BucketRepository bucketRepository
+            - S3ObjectRepository objectRepository
+            - AuthorizationService authorizationService
+            + void createBucket(String actorUserId, String name)
+            + void deleteBucket(String actorUserId, String name)
+            + S3Object uploadFile(String userId, String bucketName, String key, String content, Map<String, String> metadata)
+            + String readFile(String userId, String bucketName, String key)
+            + void updateFile(String userId, String bucketName, String key, String content, Map<String, String> metadata)
+            + void deleteFile(String userId, String bucketName, String key)
+            + List<String> listFiles(String userId, String bucketName)
+            + void grantBucketPermission(String actorUserId, String bucketName, String targetUserId, Permission permission)
+            + void revokeBucketPermission(String actorUserId, String bucketName, String targetUserId, Permission permission)
+            + void grantFilePermission(String actorUserId, String bucketName, String key, String targetUserId, Permission permission)
+            + void revokeFilePermission(String actorUserId, String bucketName, String key, String targetUserId, Permission permission)
+        }
+
+        class AuthorizationService {
+            - AuthorizationStrategy authorizationStrategy
+            + boolean canAccessBucket(String userId, Bucket bucket, Permission permission)
+            + boolean canAccessObject(String userId, Bucket bucket, S3Object object, Permission permission)
+            + void requireBucketOwner(String userId, Bucket bucket)
+            + void requireObjectOwnerOrBucketOwner(String userId, Bucket bucket, S3Object object)
+            + void requireBucketAccess(String userId, Bucket bucket, Permission permission)
+            + void requireObjectAccess(String userId, Bucket bucket, S3Object object, Permission permission)
+        }
+    }
+
+    package strategy {
+        class AuthorizationStrategy {
+            + boolean canAccessBucket(String userId, Bucket bucket, Permission permission)
+            + boolean canAccessObject(String userId, Bucket bucket, S3Object object, Permission permission)
+        }
+    }
+
+    package model {
+        class Bucket {
+            - String name
+            - String ownerUserId
+            - Acl acl
+            + String getName()
+            + String getOwnerUserId()
+            + Acl getAcl()
+        }
+
+        class S3Object {
+            - String bucketName
+            - String key
+            - String content
+            - Map<String, String> metadata
+            - String ownerUserId
+            - Acl acl
+            + String getBucketName()
+            + String getKey()
+            + String getContent()
+            + void updateContent(String content, Map<String, String> metadata)
+            + Acl getAcl()
+        }
+
+        class Acl {
+            - Map<String, Set<Permission>> userPermissions
+            + void grant(String userId, Permission permission)
+            + void revoke(String userId, Permission permission)
+            + boolean hasEntryFor(String userId)
+            + boolean allows(String userId, Permission permission)
+            + Map<String, Set<Permission>> snapshot()
+        }
+    }
+
+    package repository {
+        class BucketRepository {
+            - {static} BucketRepository instance
+            - Map<String, Bucket> buckets
+            + {static} BucketRepository getInstance()
+            + void save(Bucket bucket)
+            + Bucket findByName(String name)
+            + void delete(String name)
+            + List<Bucket> findAll()
+        }
+
+        class S3ObjectRepository {
+            - {static} S3ObjectRepository instance
+            - Map<String, Map<String, S3Object>> objects
+            + {static} S3ObjectRepository getInstance()
+            + S3Object save(S3Object object)
+            + S3Object findByBucketAndKey(String bucketName, String key)
+            + List<S3Object> findByBucket(String bucketName)
+            + void delete(String bucketName, String key)
+            + void deleteByBucket(String bucketName)
+        }
+    }
+
+    package enums {
+        enum Permission {
+            READ
+            WRITE
+        }
+    }
+}
+
+S3Demo --> S3Service : invokes
+S3Service --> BucketRepository : uses
+S3Service --> S3ObjectRepository : uses
+S3Service --> AuthorizationService : uses
+AuthorizationService --> AuthorizationStrategy : delegates
+Bucket --> Acl : owns
+S3Object --> Acl : owns
+Acl --> Permission : contains
+
+@enduml
