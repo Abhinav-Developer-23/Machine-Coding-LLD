@@ -29,6 +29,7 @@
         <module>DeliverySystem</module>
         <module>WebCrawler</module>
         <module>FileSystem</module>
+        <module>S3</module>
 
     </modules>
 

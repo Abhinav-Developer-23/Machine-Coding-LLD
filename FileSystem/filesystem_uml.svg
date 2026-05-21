@@ -1,0 +1,955 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1150" width="100%" height="100%" style="background-color: #0b0f19;">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap');
+            
+            .class-bg {
+                fill: #161e31;
+                fill-opacity: 0.95;
+            }
+            .class-border {
+                fill: none;
+                stroke: rgba(255, 255, 255, 0.08);
+                stroke-width: 1.5;
+            }
+            .class-box:hover .class-border {
+                stroke: rgba(255, 255, 255, 0.25);
+                stroke-width: 1.8;
+                transition: stroke 0.3s ease;
+            }
+            .class-name {
+                font-family: 'Outfit', system-ui, sans-serif;
+                font-size: 14px;
+                font-weight: 700;
+                fill: #ffffff;
+                text-anchor: middle;
+            }
+            .class-stereotype {
+                font-family: 'Outfit', system-ui, sans-serif;
+                font-size: 10px;
+                font-weight: 500;
+                font-style: italic;
+                fill: rgba(255, 255, 255, 0.7);
+                text-anchor: middle;
+            }
+            .class-package {
+                font-family: 'Outfit', system-ui, sans-serif;
+                font-size: 9px;
+                font-weight: 500;
+                fill: rgba(255, 255, 255, 0.4);
+                text-anchor: start;
+            }
+            .member-text {
+                font-family: 'Consolas', 'Courier New', monospace;
+                font-size: 11px;
+                font-weight: 500;
+            }
+            .relation-label {
+                font-family: 'Outfit', system-ui, sans-serif;
+                font-size: 10px;
+                font-weight: 600;
+                fill: #94a3b8;
+            }
+            
+            /* Gradients */
+            #UMLGrad-singleton { fill: url(#grad-singleton); }
+            #UMLGrad-composite { fill: url(#grad-composite); }
+            #UMLGrad-command { fill: url(#grad-command); }
+            #UMLGrad-strategy { fill: url(#grad-strategy); }
+            #UMLGrad-driver { fill: url(#grad-driver); }
+            #UMLGrad-interface { fill: url(#grad-interface); }
+            #UMLGrad-abstract { fill: url(#grad-abstract); }
+        </style>
+        
+        <!-- Filters for drop shadows -->
+        <filter id="class-shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5" />
+        </filter>
+        <filter id="panel-shadow" x="-5%" y="-5%" width="110%" height="110%">
+            <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#000000" flood-opacity="0.4" />
+        </filter>
+        
+        <!-- Reusable UML Gradients -->
+        <linearGradient id="grad-singleton" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1e3c72" />
+            <stop offset="100%" stop-color="#2a5298" />
+        </linearGradient>
+        <linearGradient id="grad-composite" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0052D4" />
+            <stop offset="50%" stop-color="#4364F7" />
+            <stop offset="100%" stop-color="#6FB1FC" />
+        </linearGradient>
+        <linearGradient id="grad-command" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2c3e50" />
+            <stop offset="100%" stop-color="#3498db" />
+        </linearGradient>
+        <linearGradient id="grad-strategy" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f12711" />
+            <stop offset="100%" stop-color="#f5af19" />
+        </linearGradient>
+        <linearGradient id="grad-driver" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3a6073" />
+            <stop offset="100%" stop-color="#3a7bd5" />
+        </linearGradient>
+        <linearGradient id="grad-interface" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#11998e" />
+            <stop offset="100%" stop-color="#38ef7d" />
+        </linearGradient>
+        <linearGradient id="grad-abstract" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8a2be2" />
+            <stop offset="100%" stop-color="#4b0082" />
+        </linearGradient>
+        
+        <!-- Markers -->
+        <!-- Association Marker (Arrowhead) -->
+        <marker id="marker-association" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5" fill="none" stroke="#4299e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </marker>
+        
+        <!-- Inheritance / Implementation Marker (Hollow Triangle) -->
+        <marker id="marker-inheritance" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+            <polygon points="0 1, 10 6, 0 11" fill="#161e31" stroke="#9f7aea" stroke-width="1.5" />
+        </marker>
+        
+        <!-- Aggregation Marker (Hollow Diamond) -->
+        <marker id="marker-aggregation" viewBox="0 0 16 16" refX="0" refY="8" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+            <polygon points="8 1, 15 8, 8 15, 1 8" fill="#161e31" stroke="#38b2ac" stroke-width="1.5" />
+        </marker>
+        
+        <linearGradient id="panel-header-grad-3a7bd5" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3a7bd5" stop-opacity="1" />
+            <stop offset="100%" stop-color="#3a7bd5" stop-opacity="0.1" />
+        </linearGradient>
+        <linearGradient id="border-gradient-3a7bd5" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3a7bd5" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1" />
+        </linearGradient>
+
+        <linearGradient id="panel-header-grad-4364F7" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4364F7" stop-opacity="1" />
+            <stop offset="100%" stop-color="#4364F7" stop-opacity="0.1" />
+        </linearGradient>
+        <linearGradient id="border-gradient-4364F7" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4364F7" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1" />
+        </linearGradient>
+
+        <linearGradient id="panel-header-grad-f5af19" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f5af19" stop-opacity="1" />
+            <stop offset="100%" stop-color="#f5af19" stop-opacity="0.1" />
+        </linearGradient>
+        <linearGradient id="border-gradient-f5af19" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f5af19" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1" />
+        </linearGradient>
+
+        <linearGradient id="panel-header-grad-38ef7d" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#38ef7d" stop-opacity="1" />
+            <stop offset="100%" stop-color="#38ef7d" stop-opacity="0.1" />
+        </linearGradient>
+        <linearGradient id="border-gradient-38ef7d" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38ef7d" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1" />
+        </linearGradient>
+
+    </defs>
+    
+    <!-- Engineering Grid Background -->
+    <rect width="1800" height="1150" fill="#0b0f19" />
+    <g opacity="0.04" stroke="#4364F7" stroke-width="0.5">
+        <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" />
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+    </g>
+    <g opacity="0.08" stroke="#4364F7" stroke-width="1.2">
+        <pattern id="grid-major" width="150" height="150" patternUnits="userSpaceOnUse">
+            <path d="M 150 0 L 0 0 0 150" fill="none" />
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#grid-major)" />
+    </g>
+    
+    <!-- Design Title Block -->
+    <g transform="translate(80, 55)" font-family="'Outfit', system-ui, sans-serif">
+        <text x="0" y="0" font-size="28" font-weight="800" fill="#ffffff" letter-spacing="1">FILESYSTEM LLD ARCHITECTURE</text>
+        <text x="0" y="16" font-size="12" font-weight="500" fill="#4facfe" letter-spacing="2">OBJECT-ORIENTED DESIGN &amp; GOF DESIGN PATTERNS</text>
+    </g>
+    
+    <!-- Panel: Core Orchestration and Shell -->
+    <g class="panel">
+        <rect x="50" y="90" width="850" height="420" rx="12" ry="12" 
+              fill="rgba(22, 30, 49, 0.4)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" filter="url(#panel-shadow)" />
+        <rect x="50" y="90" width="850" height="420" rx="12" ry="12" 
+              fill="none" stroke="url(#border-gradient-3a7bd5)" stroke-width="1.5" opacity="0.4" />
+        
+        <!-- Panel Header -->
+        <path d="M 62 90 L 888 90 A 12 12 0 0 1 900 102 L 900 130 L 50 130 L 50 102 A 12 12 0 0 1 62 90 Z" 
+              fill="url(#panel-header-grad-3a7bd5)" opacity="0.15" />
+        <text x="70" y="116" font-family="'Outfit', system-ui, sans-serif" font-size="14" font-weight="700" fill="#3a7bd5" letter-spacing="1">
+            CORE ORCHESTRATION &amp; SHELL
+        </text>
+    </g>
+
+    <!-- Panel: Composite Structure (Composite Pattern) -->
+    <g class="panel">
+        <rect x="920" y="90" width="480" height="420" rx="12" ry="12" 
+              fill="rgba(22, 30, 49, 0.4)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" filter="url(#panel-shadow)" />
+        <rect x="920" y="90" width="480" height="420" rx="12" ry="12" 
+              fill="none" stroke="url(#border-gradient-4364F7)" stroke-width="1.5" opacity="0.4" />
+        
+        <!-- Panel Header -->
+        <path d="M 932 90 L 1388 90 A 12 12 0 0 1 1400 102 L 1400 130 L 920 130 L 920 102 A 12 12 0 0 1 932 90 Z" 
+              fill="url(#panel-header-grad-4364F7)" opacity="0.15" />
+        <text x="940" y="116" font-family="'Outfit', system-ui, sans-serif" font-size="14" font-weight="700" fill="#4364F7" letter-spacing="1">
+            COMPOSITE STRUCTURE (COMPOSITE PATTERN)
+        </text>
+    </g>
+
+    <!-- Panel: Listing Formatter (Strategy Pattern) -->
+    <g class="panel">
+        <rect x="1420" y="90" width="330" height="420" rx="12" ry="12" 
+              fill="rgba(22, 30, 49, 0.4)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" filter="url(#panel-shadow)" />
+        <rect x="1420" y="90" width="330" height="420" rx="12" ry="12" 
+              fill="none" stroke="url(#border-gradient-f5af19)" stroke-width="1.5" opacity="0.4" />
+        
+        <!-- Panel Header -->
+        <path d="M 1432 90 L 1738 90 A 12 12 0 0 1 1750 102 L 1750 130 L 1420 130 L 1420 102 A 12 12 0 0 1 1432 90 Z" 
+              fill="url(#panel-header-grad-f5af19)" opacity="0.15" />
+        <text x="1440" y="116" font-family="'Outfit', system-ui, sans-serif" font-size="14" font-weight="700" fill="#f5af19" letter-spacing="1">
+            LISTING FORMATTER (STRATEGY PATTERN)
+        </text>
+    </g>
+
+    <!-- Panel: Operations and Scripting Layer (Command Pattern) -->
+    <g class="panel">
+        <rect x="50" y="520" width="1700" height="480" rx="12" ry="12" 
+              fill="rgba(22, 30, 49, 0.4)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" filter="url(#panel-shadow)" />
+        <rect x="50" y="520" width="1700" height="480" rx="12" ry="12" 
+              fill="none" stroke="url(#border-gradient-38ef7d)" stroke-width="1.5" opacity="0.4" />
+        
+        <!-- Panel Header -->
+        <path d="M 62 520 L 1738 520 A 12 12 0 0 1 1750 532 L 1750 560 L 50 560 L 50 532 A 12 12 0 0 1 62 520 Z" 
+              fill="url(#panel-header-grad-38ef7d)" opacity="0.15" />
+        <text x="70" y="546" font-family="'Outfit', system-ui, sans-serif" font-size="14" font-weight="700" fill="#38ef7d" letter-spacing="1">
+            OPERATIONS &amp; SCRIPTING LAYER (COMMAND PATTERN)
+        </text>
+    </g>
+
+    <!-- Class: Shell -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="80" y="140" width="320" height="160" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="80" y="140" width="320" height="160" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 88 140 L 392 140 A 8 8 0 0 1 400 148 L 400 188 L 80 188 L 80 148 A 8 8 0 0 1 88 140 Z" 
+              fill="url(#UMLGrad-driver)" />
+        <line x1="80" y1="188" x2="400" y2="188" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="92" y="156" class="class-package">org.example.filesystem</text>
+        
+        <text x="240" y="172" class="class-name">Shell</text>
+        
+        <!-- Fields -->
+        <text x="95" y="195" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+
+        
+        <!-- Divider -->
+        <line x1="80" y1="217" x2="400" y2="217" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="95" y="233" fill="#63b3ed"  class="member-text">+ Shell()</text>
+<text x="95" y="251" fill="#63b3ed"  class="member-text">+ executeCommand(input: String): void</text>
+<text x="95" y="269" fill="#cbd5e0"  class="member-text">- getListingStrategy(args: String[]): ListingStrategy</text>
+<text x="95" y="287" fill="#cbd5e0"  class="member-text">- getPathArgumentForLs(parts: String[]): String</text>
+<text x="95" y="305" fill="#cbd5e0"  class="member-text">- getEchoContent(input: String): String</text>
+<text x="95" y="323" fill="#cbd5e0"  class="member-text">- getEchoFilePath(parts: String[]): String</text>
+
+    </g>
+
+    <!-- Class: FileSystem -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="480" y="140" width="380" height="320" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="480" y="140" width="380" height="320" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 488 140 L 852 140 A 8 8 0 0 1 860 148 L 860 188 L 480 188 L 480 148 A 8 8 0 0 1 488 140 Z" 
+              fill="url(#UMLGrad-singleton)" />
+        <line x1="480" y1="188" x2="860" y2="188" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="492" y="156" class="class-package">org.example.filesystem</text>
+        <text x="670" y="164" class="class-stereotype">&lt;&lt;Singleton&gt;&gt;</text>
+        <text x="670" y="178" class="class-name">FileSystem</text>
+        
+        <!-- Fields -->
+        <text x="495" y="195" fill="#e2e8f0"  class="member-text">- instance: FileSystem {static, volatile}</text>
+<text x="495" y="213" fill="#e2e8f0"  class="member-text">- root: Directory</text>
+<text x="495" y="231" fill="#e2e8f0"  class="member-text">- currentDirectory: Directory</text>
+
+        
+        <!-- Divider -->
+        <line x1="480" y1="253" x2="860" y2="253" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="495" y="269" fill="#cbd5e0"  class="member-text">- FileSystem()</text>
+<text x="495" y="287" fill="#63b3ed" text-decoration="underline" class="member-text">+ getInstance(): FileSystem</text>
+<text x="495" y="305" fill="#63b3ed"  class="member-text">+ createDirectory(path: String): void</text>
+<text x="495" y="323" fill="#63b3ed"  class="member-text">+ createFile(path: String): void</text>
+<text x="495" y="341" fill="#63b3ed"  class="member-text">+ changeDirectory(path: String): void</text>
+<text x="495" y="359" fill="#63b3ed"  class="member-text">+ listContents(strategy: ListingStrategy): void</text>
+<text x="495" y="377" fill="#63b3ed"  class="member-text">+ listContents(path: String, strategy: ListingStrategy): void</text>
+<text x="495" y="395" fill="#63b3ed"  class="member-text">+ getWorkingDirectory(): String</text>
+<text x="495" y="413" fill="#63b3ed"  class="member-text">+ writeToFile(path: String, content: String): void</text>
+<text x="495" y="431" fill="#63b3ed"  class="member-text">+ readFile(path: String): String</text>
+<text x="495" y="449" fill="#cbd5e0"  class="member-text">- createNode(path: String, isDir: boolean): void</text>
+<text x="495" y="467" fill="#cbd5e0"  class="member-text">- getNode(path: String): FileSystemNode</text>
+
+    </g>
+
+    <!-- Class: FileSystemNode -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="1000" y="140" width="320" height="200" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="1000" y="140" width="320" height="200" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 1008 140 L 1312 140 A 8 8 0 0 1 1320 148 L 1320 188 L 1000 188 L 1000 148 A 8 8 0 0 1 1008 140 Z" 
+              fill="url(#UMLGrad-abstract)" />
+        <line x1="1000" y1="188" x2="1320" y2="188" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="1012" y="156" class="class-package">org.example.filesystem.composite</text>
+        <text x="1160" y="164" class="class-stereotype">&lt;&lt;abstract&gt;&gt;</text>
+        <text x="1160" y="178" class="class-name">FileSystemNode</text>
+        
+        <!-- Fields -->
+        <text x="1015" y="195" fill="#f6ad55"  class="member-text"># name: String</text>
+<text x="1015" y="213" fill="#f6ad55"  class="member-text"># parent: Directory</text>
+<text x="1015" y="231" fill="#f6ad55"  class="member-text"># createdTime: Instant</text>
+
+        
+        <!-- Divider -->
+        <line x1="1000" y1="253" x2="1320" y2="253" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="1015" y="269" fill="#63b3ed"  class="member-text">+ FileSystemNode(name: String, parent: Directory)</text>
+<text x="1015" y="287" fill="#63b3ed"  class="member-text">+ getPath(): String</text>
+<text x="1015" y="305" fill="#63b3ed"  class="member-text">+ getName(): String</text>
+<text x="1015" y="323" fill="#63b3ed"  class="member-text">+ setName(name: String): void</text>
+<text x="1015" y="341" fill="#63b3ed"  class="member-text">+ getParent(): Directory</text>
+<text x="1015" y="359" fill="#63b3ed"  class="member-text">+ getCreatedTime(): Instant</text>
+
+    </g>
+
+    <!-- Class: File -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="930" y="380" width="220" height="110" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="930" y="380" width="220" height="110" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 938 380 L 1142 380 A 8 8 0 0 1 1150 388 L 1150 428 L 930 428 L 930 388 A 8 8 0 0 1 938 380 Z" 
+              fill="url(#UMLGrad-composite)" />
+        <line x1="930" y1="428" x2="1150" y2="428" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="942" y="396" class="class-package">org.example.filesystem.composite</text>
+        
+        <text x="1040" y="412" class="class-name">File</text>
+        
+        <!-- Fields -->
+        <text x="945" y="435" fill="#e2e8f0"  class="member-text">- content: String</text>
+
+        
+        <!-- Divider -->
+        <line x1="930" y1="457" x2="1150" y2="457" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="945" y="473" fill="#63b3ed"  class="member-text">+ File(name: String, parent: Directory)</text>
+<text x="945" y="491" fill="#63b3ed"  class="member-text">+ getContent(): String</text>
+<text x="945" y="509" fill="#63b3ed"  class="member-text">+ setContent(content: String): void</text>
+
+    </g>
+
+    <!-- Class: Directory -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="1170" y="380" width="210" height="110" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="1170" y="380" width="210" height="110" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 1178 380 L 1372 380 A 8 8 0 0 1 1380 388 L 1380 428 L 1170 428 L 1170 388 A 8 8 0 0 1 1178 380 Z" 
+              fill="url(#UMLGrad-composite)" />
+        <line x1="1170" y1="428" x2="1380" y2="428" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="1182" y="396" class="class-package">org.example.filesystem.composite</text>
+        
+        <text x="1275" y="412" class="class-name">Directory</text>
+        
+        <!-- Fields -->
+        <text x="1185" y="435" fill="#e2e8f0"  class="member-text">- children: Map&lt;String, FileSystemNode&gt;</text>
+
+        
+        <!-- Divider -->
+        <line x1="1170" y1="457" x2="1380" y2="457" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="1185" y="473" fill="#63b3ed"  class="member-text">+ Directory(name: String, parent: Directory)</text>
+<text x="1185" y="491" fill="#63b3ed"  class="member-text">+ addChild(node: FileSystemNode): void</text>
+<text x="1185" y="509" fill="#63b3ed"  class="member-text">+ getChildren(): Map&lt;String, FileSystemNode&gt;</text>
+<text x="1185" y="527" fill="#63b3ed"  class="member-text">+ getChild(name: String): FileSystemNode</text>
+
+    </g>
+
+    <!-- Class: ListingStrategy -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="1460" y="140" width="250" height="100" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="1460" y="140" width="250" height="100" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 1468 140 L 1702 140 A 8 8 0 0 1 1710 148 L 1710 188 L 1460 188 L 1460 148 A 8 8 0 0 1 1468 140 Z" 
+              fill="url(#UMLGrad-interface)" />
+        <line x1="1460" y1="188" x2="1710" y2="188" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="1472" y="156" class="class-package">org.example.filesystem.strategy</text>
+        <text x="1585" y="164" class="class-stereotype">&lt;&lt;interface&gt;&gt;</text>
+        <text x="1585" y="178" class="class-name">ListingStrategy</text>
+        
+        <!-- Fields -->
+        
+        
+        <!-- Divider -->
+        <line x1="1460" y1="199" x2="1710" y2="199" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="1475" y="215" fill="#63b3ed"  class="member-text">+ list(directory: Directory): void</text>
+
+    </g>
+
+    <!-- Class: SimpleListingStrategy -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="1440" y="270" width="130" height="100" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="1440" y="270" width="130" height="100" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 1448 270 L 1562 270 A 8 8 0 0 1 1570 278 L 1570 318 L 1440 318 L 1440 278 A 8 8 0 0 1 1448 270 Z" 
+              fill="url(#UMLGrad-strategy)" />
+        <line x1="1440" y1="318" x2="1570" y2="318" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="1452" y="286" class="class-package">org.example.filesystem.strategy</text>
+        
+        <text x="1505" y="302" class="class-name">SimpleListingStrategy</text>
+        
+        <!-- Fields -->
+        
+        
+        <!-- Divider -->
+        <line x1="1440" y1="329" x2="1570" y2="329" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="1455" y="345" fill="#63b3ed"  class="member-text">+ list(dir: Directory): void</text>
+
+    </g>
+
+    <!-- Class: DetailedListingStrategy -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="1590" y="270" width="145" height="100" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="1590" y="270" width="145" height="100" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 1598 270 L 1727 270 A 8 8 0 0 1 1735 278 L 1735 318 L 1590 318 L 1590 278 A 8 8 0 0 1 1598 270 Z" 
+              fill="url(#UMLGrad-strategy)" />
+        <line x1="1590" y1="318" x2="1735" y2="318" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="1602" y="286" class="class-package">org.example.filesystem.strategy</text>
+        
+        <text x="1662" y="302" class="class-name">DetailedListingStrategy</text>
+        
+        <!-- Fields -->
+        
+        
+        <!-- Divider -->
+        <line x1="1590" y1="329" x2="1735" y2="329" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="1605" y="345" fill="#63b3ed"  class="member-text">+ list(dir: Directory): void</text>
+
+    </g>
+
+    <!-- Class: Command -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="80" y="560" width="200" height="100" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="80" y="560" width="200" height="100" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 88 560 L 272 560 A 8 8 0 0 1 280 568 L 280 608 L 80 608 L 80 568 A 8 8 0 0 1 88 560 Z" 
+              fill="url(#UMLGrad-interface)" />
+        <line x1="80" y1="608" x2="280" y2="608" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="92" y="576" class="class-package">org.example.filesystem.command</text>
+        <text x="180" y="584" class="class-stereotype">&lt;&lt;interface&gt;&gt;</text>
+        <text x="180" y="598" class="class-name">Command</text>
+        
+        <!-- Fields -->
+        
+        
+        <!-- Divider -->
+        <line x1="80" y1="619" x2="280" y2="619" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="95" y="635" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: CdCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="340" y="560" width="250" height="120" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="340" y="560" width="250" height="120" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 348 560 L 582 560 A 8 8 0 0 1 590 568 L 590 608 L 340 608 L 340 568 A 8 8 0 0 1 348 560 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="340" y1="608" x2="590" y2="608" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="352" y="576" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="465" y="592" class="class-name">CdCommand</text>
+        
+        <!-- Fields -->
+        <text x="355" y="615" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+<text x="355" y="633" fill="#e2e8f0"  class="member-text">- path: String</text>
+
+        
+        <!-- Divider -->
+        <line x1="340" y1="655" x2="590" y2="655" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="355" y="671" fill="#63b3ed"  class="member-text">+ CdCommand(fs: FileSystem, path: String)</text>
+<text x="355" y="689" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: MkdirCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="620" y="560" width="260" height="120" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="620" y="560" width="260" height="120" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 628 560 L 872 560 A 8 8 0 0 1 880 568 L 880 608 L 620 608 L 620 568 A 8 8 0 0 1 628 560 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="620" y1="608" x2="880" y2="608" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="632" y="576" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="750" y="592" class="class-name">MkdirCommand</text>
+        
+        <!-- Fields -->
+        <text x="635" y="615" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+<text x="635" y="633" fill="#e2e8f0"  class="member-text">- path: String</text>
+
+        
+        <!-- Divider -->
+        <line x1="620" y1="655" x2="880" y2="655" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="635" y="671" fill="#63b3ed"  class="member-text">+ MkdirCommand(fs: FileSystem, path: String)</text>
+<text x="635" y="689" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: TouchCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="910" y="560" width="260" height="120" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="910" y="560" width="260" height="120" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 918 560 L 1162 560 A 8 8 0 0 1 1170 568 L 1170 608 L 910 608 L 910 568 A 8 8 0 0 1 918 560 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="910" y1="608" x2="1170" y2="608" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="922" y="576" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="1040" y="592" class="class-name">TouchCommand</text>
+        
+        <!-- Fields -->
+        <text x="925" y="615" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+<text x="925" y="633" fill="#e2e8f0"  class="member-text">- path: String</text>
+
+        
+        <!-- Divider -->
+        <line x1="910" y1="655" x2="1170" y2="655" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="925" y="671" fill="#63b3ed"  class="member-text">+ TouchCommand(fs: FileSystem, path: String)</text>
+<text x="925" y="689" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: LsCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="1200" y="560" width="350" height="135" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="1200" y="560" width="350" height="135" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 1208 560 L 1542 560 A 8 8 0 0 1 1550 568 L 1550 608 L 1200 608 L 1200 568 A 8 8 0 0 1 1208 560 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="1200" y1="608" x2="1550" y2="608" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="1212" y="576" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="1375" y="592" class="class-name">LsCommand</text>
+        
+        <!-- Fields -->
+        <text x="1215" y="615" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+<text x="1215" y="633" fill="#e2e8f0"  class="member-text">- path: String</text>
+<text x="1215" y="651" fill="#e2e8f0"  class="member-text">- strategy: ListingStrategy</text>
+
+        
+        <!-- Divider -->
+        <line x1="1200" y1="673" x2="1550" y2="673" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="1215" y="689" fill="#63b3ed"  class="member-text">+ LsCommand(fs, path, strategy)</text>
+<text x="1215" y="707" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: PwdCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="340" y="710" width="250" height="110" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="340" y="710" width="250" height="110" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 348 710 L 582 710 A 8 8 0 0 1 590 718 L 590 758 L 340 758 L 340 718 A 8 8 0 0 1 348 710 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="340" y1="758" x2="590" y2="758" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="352" y="726" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="465" y="742" class="class-name">PwdCommand</text>
+        
+        <!-- Fields -->
+        <text x="355" y="765" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+
+        
+        <!-- Divider -->
+        <line x1="340" y1="787" x2="590" y2="787" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="355" y="803" fill="#63b3ed"  class="member-text">+ PwdCommand(fs: FileSystem)</text>
+<text x="355" y="821" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: CatCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="620" y="710" width="260" height="120" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="620" y="710" width="260" height="120" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 628 710 L 872 710 A 8 8 0 0 1 880 718 L 880 758 L 620 758 L 620 718 A 8 8 0 0 1 628 710 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="620" y1="758" x2="880" y2="758" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="632" y="726" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="750" y="742" class="class-name">CatCommand</text>
+        
+        <!-- Fields -->
+        <text x="635" y="765" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+<text x="635" y="783" fill="#e2e8f0"  class="member-text">- path: String</text>
+
+        
+        <!-- Divider -->
+        <line x1="620" y1="805" x2="880" y2="805" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="635" y="821" fill="#63b3ed"  class="member-text">+ CatCommand(fs: FileSystem, path: String)</text>
+<text x="635" y="839" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Class: EchoCommand -->
+    <g class="class-box" transform="translate(0,0)">
+        <!-- Shadow & Main Box -->
+        <rect x="910" y="710" width="320" height="135" rx="8" ry="8" class="class-bg" filter="url(#class-shadow)" />
+        <rect x="910" y="710" width="320" height="135" rx="8" ry="8" class="class-border" />
+        
+        <!-- Header -->
+        <path d="M 918 710 L 1222 710 A 8 8 0 0 1 1230 718 L 1230 758 L 910 758 L 910 718 A 8 8 0 0 1 918 710 Z" 
+              fill="url(#UMLGrad-command)" />
+        <line x1="910" y1="758" x2="1230" y2="758" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+        
+        <!-- Header Texts -->
+        <text x="922" y="726" class="class-package">org.example.filesystem.command</text>
+        
+        <text x="1070" y="742" class="class-name">EchoCommand</text>
+        
+        <!-- Fields -->
+        <text x="925" y="765" fill="#e2e8f0"  class="member-text">- fs: FileSystem</text>
+<text x="925" y="783" fill="#e2e8f0"  class="member-text">- content: String</text>
+<text x="925" y="801" fill="#e2e8f0"  class="member-text">- filePath: String</text>
+
+        
+        <!-- Divider -->
+        <line x1="910" y1="823" x2="1230" y2="823" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Methods -->
+        <text x="925" y="839" fill="#63b3ed"  class="member-text">+ EchoCommand(fs, content, filePath)</text>
+<text x="925" y="857" fill="#63b3ed"  class="member-text">+ execute(): void</text>
+
+    </g>
+
+    <!-- Connector: association uses -->
+    <g>
+        <path d="M 400 220 L 480 220" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        <text x="440.00" y="214.00" class="relation-label" text-anchor="middle">uses</text>
+    </g>
+
+    <!-- Connector: dependency executes -->
+    <g>
+        <path d="M 240 300 L 240 480 L 180 480 L 180 560" fill="none" stroke="#cbd5e0" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#marker-association)" />
+        <text x="248.00" y="404.00" class="relation-label" text-anchor="start">executes</text>
+    </g>
+
+    <!-- Connector: association current / root -->
+    <g>
+        <path d="M 860 400 L 900 400 L 900 350 L 1170 435" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        <text x="880.00" y="394.00" class="relation-label" text-anchor="middle">current / root</text>
+    </g>
+
+    <!-- Connector: inheritance  -->
+    <g>
+        <path d="M 1040 380 L 1040 350 L 1160 350 L 1160 340" fill="none" stroke="#9f7aea" stroke-width="2"  marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: inheritance  -->
+    <g>
+        <path d="M 1275 380 L 1275 350 L 1160 350 L 1160 340" fill="none" stroke="#9f7aea" stroke-width="2"  marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: aggregation children -->
+    <g>
+        <path d="M 1380 435 L 1400 435 L 1400 240 L 1320 240" fill="none" stroke="#38b2ac" stroke-width="1.5"  marker-end="url(#marker-aggregation)" />
+        <text x="1390.00" y="429.00" class="relation-label" text-anchor="middle">children</text>
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 1505 270 L 1505 250 L 1585 250 L 1585 240" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 1662 270 L 1662 250 L 1585 250 L 1585 240" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: dependency lists -->
+    <g>
+        <path d="M 1710 190 L 1750 190 L 1750 470 L 1380 470" fill="none" stroke="#cbd5e0" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#marker-association)" />
+        <text x="1730.00" y="184.00" class="relation-label" text-anchor="middle">lists</text>
+    </g>
+
+    <!-- Connector: dependency  -->
+    <g>
+        <path d="M 180 660 L 180 680" fill="none" stroke="#cbd5e0" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: dependency  -->
+    <g>
+        <path d="M 180 680 L 1375 680" fill="none" stroke="#cbd5e0" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 465 680 L 465 560" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 750 680 L 750 560" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 1040 680 L 1040 560" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 1375 680 L 1375 560" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 465 680 L 465 710" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 750 680 L 750 710" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: realization  -->
+    <g>
+        <path d="M 1040 680 L 1040 710" fill="none" stroke="#319795" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#marker-inheritance)" />
+        
+    </g>
+
+    <!-- Connector: dependency  -->
+    <g>
+        <path d="M 670 460 L 670 505" fill="none" stroke="#cbd5e0" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: dependency  -->
+    <g>
+        <path d="M 465 505 L 1375 505" fill="none" stroke="#cbd5e0" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 465 560 L 465 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 750 560 L 750 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 1040 560 L 1040 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 1375 560 L 1375 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 465 710 L 465 695 L 310 695 L 310 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 750 710 L 750 695 L 610 695 L 610 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association  -->
+    <g>
+        <path d="M 1040 710 L 1040 695 L 895 695 L 895 505" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        
+    </g>
+
+    <!-- Connector: association strategy -->
+    <g>
+        <path d="M 1550 620 L 1585 620 L 1585 240" fill="none" stroke="#4299e1" stroke-width="1.5"  marker-end="url(#marker-association)" />
+        <text x="1567.50" y="614.00" class="relation-label" text-anchor="middle">strategy</text>
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(80, 1020)" font-family="'Outfit', system-ui, sans-serif">
+        <rect x="0" y="0" width="1640" height="90" rx="10" ry="10" 
+              fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5" filter="url(#panel-shadow)" />
+        
+        <!-- Legend Title -->
+        <text x="20" y="28" font-size="13" font-weight="700" fill="#94a3b8" letter-spacing="1">UML CLASS DIAGRAM KEY &amp; DESIGN PATTERNS</text>
+        
+        <!-- Design Pattern Legend Tags -->
+        <g transform="translate(20, 42)">
+            <!-- Singleton Pattern -->
+            <rect x="0" y="5" width="16" height="16" rx="3" fill="url(#grad-singleton)" />
+            <text x="24" y="17" font-size="12" font-weight="600" fill="#e2e8f0">Singleton Pattern</text>
+            
+            <!-- Composite Pattern -->
+            <rect x="160" y="5" width="16" height="16" rx="3" fill="url(#grad-composite)" />
+            <text x="184" y="17" font-size="12" font-weight="600" fill="#e2e8f0">Composite Pattern</text>
+            
+            <!-- Strategy Pattern -->
+            <rect x="320" y="5" width="16" height="16" rx="3" fill="url(#grad-strategy)" />
+            <text x="344" y="17" font-size="12" font-weight="600" fill="#e2e8f0">Strategy Pattern</text>
+            
+            <!-- Command Pattern -->
+            <rect x="480" y="5" width="16" height="16" rx="3" fill="url(#grad-command)" />
+            <text x="504" y="17" font-size="12" font-weight="600" fill="#e2e8f0">Command Pattern</text>
+
+            <!-- Utility / Driver -->
+            <rect x="640" y="5" width="16" height="16" rx="3" fill="url(#grad-driver)" />
+            <text x="664" y="17" font-size="12" font-weight="600" fill="#e2e8f0">Core Driver / Shell</text>
+        </g>
+        
+        <!-- Connector Line Types Legend -->
+        <g transform="translate(850, 22)">
+            <!-- Inheritance -->
+            <path d="M 0,10 L 40,10" fill="none" stroke="#9f7aea" stroke-width="2" />
+            <polygon points="40,10 32,6 32,14" fill="none" stroke="#9f7aea" stroke-width="1.5" />
+            <text x="50" y="14" font-size="11" font-weight="500" fill="#94a3b8">Inheritance (extends)</text>
+            
+            <!-- Realization -->
+            <path d="M 230,10 L 270,10" fill="none" stroke="#319795" stroke-dasharray="4,4" stroke-width="1.5" />
+            <polygon points="270,10 262,6 262,14" fill="none" stroke="#319795" stroke-width="1.5" />
+            <text x="280" y="14" font-size="11" font-weight="500" fill="#94a3b8">Realization (implements)</text>
+            
+            <!-- Association -->
+            <path d="M 470,10 L 510,10" fill="none" stroke="#4299e1" stroke-width="1.5" />
+            <path d="M 503,6 L 510,10 L 503,14" fill="none" stroke="#4299e1" stroke-width="1.5" />
+            <text x="520" y="14" font-size="11" font-weight="500" fill="#94a3b8">Association (uses/owns)</text>
+            
+            <!-- Aggregation -->
+            <path d="M 0,35 L 40,35" fill="none" stroke="#38b2ac" stroke-width="1.5" />
+            <polygon points="40,35 48,31 40,27 32,31" fill="none" stroke="#38b2ac" stroke-width="1.5" />
+            <text x="60" y="39" font-size="11" font-weight="500" fill="#94a3b8">Aggregation (has-a)</text>
+            
+            <!-- Access Modifiers -->
+            <text x="230" y="39" font-size="11" font-weight="600" fill="#94a3b8">
+                Modifiers:  <tspan fill="#38ef7d">+</tspan> Public  <tspan fill="#e2e8f0">-</tspan> Private  <tspan fill="#f6ad55">#</tspan> Protected  <tspan text-decoration="underline">underline</tspan> Static
+            </text>
+        </g>
+    </g>
+
+</svg>
