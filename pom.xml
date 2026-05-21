@@ -31,6 +31,7 @@
         <module>FileSystem</module>
         <module>S3</module>
 
+        <module>VendingMachine</module>
     </modules>
 
     <properties>
