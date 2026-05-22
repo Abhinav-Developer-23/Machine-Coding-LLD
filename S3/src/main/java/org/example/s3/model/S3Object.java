@@ -6,6 +6,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 
+/**
+ * Represents an S3 object (file) stored within a specific bucket.
+ * Tracks location (bucket name), identification key, content, metadata tags, owners,
+ * audit timestamps, and individual file-level ACL configurations.
+ */
 @Getter
 public class S3Object {
   private final String bucketName;
@@ -17,6 +22,16 @@ public class S3Object {
   private Instant updatedAt;
   private final Map<String, String> metadata;
 
+  /**
+   * Constructs a new S3Object representing a file.
+   *
+   * @param bucketName the name of the containing bucket
+   * @param key the unique key identifier for the file within the bucket
+   * @param content the text content of the file
+   * @param metadata key-value metadata tags
+   * @param ownerUserId the ID of the user uploading and owning the file
+   * @throws IllegalArgumentException if the bucketName, key, or ownerUserId is null or blank
+   */
   public S3Object(
       String bucketName,
       String key,
@@ -42,6 +57,12 @@ public class S3Object {
     this.acl = new Acl();
   }
 
+  /**
+   * Updates the content and metadata of this object and updates the modified timestamp.
+   *
+   * @param content the new text content of the file
+   * @param metadata the new key-value metadata tags
+   */
   public void updateContent(String content, Map<String, String> metadata) {
     this.content = content == null ? "" : content;
     if (metadata != null) {
@@ -51,6 +72,11 @@ public class S3Object {
     this.updatedAt = Instant.now();
   }
 
+  /**
+   * Returns an unmodifiable snapshot of the object's metadata.
+   *
+   * @return an unmodifiable map containing the metadata tags
+   */
   public Map<String, String> getMetadata() {
     return Collections.unmodifiableMap(metadata);
   }
