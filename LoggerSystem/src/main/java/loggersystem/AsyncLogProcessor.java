@@ -2,7 +2,8 @@ package loggersystem;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import loggersystem.entities.LogMessage;
 import loggersystem.strategies.LogAppender;
@@ -11,13 +12,17 @@ public class AsyncLogProcessor {
   private final ExecutorService executor;
 
   public AsyncLogProcessor() {
+
     this.executor =
-        Executors.newSingleThreadExecutor(
-            runnable -> {
-              Thread thread = new Thread(runnable, "AsyncLogProcessor");
-              thread.setDaemon(true); // Don't prevent JVM exit
-              return thread;
-            });
+        new ThreadPoolExecutor(
+            1, // corePoolSize
+            100, // maximumPoolSize
+            60L, // keepAliveTime for idle threads beyond core
+            TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(1000), // bounded queue to prevent memory issues
+            new ThreadPoolExecutor
+                .CallerRunsPolicy() // backpressure: caller logs directly if queue is full
+            );
   }
 
   public void process(LogMessage logMessage, List<LogAppender> appenders) {

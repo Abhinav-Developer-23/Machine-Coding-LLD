@@ -21,14 +21,6 @@ public class LogManager {
     return INSTANCE;
   }
 
-  public Logger getLogger(String name) {
-    return loggers.computeIfAbsent(name, key -> new Logger(key));
-  }
-
-  AsyncLogProcessor getProcessor() {
-    return processor;
-  }
-
   public void shutdown() {
     // Stop the processor first to ensure all logs are written.
     processor.stop();
@@ -39,5 +31,13 @@ public class LogManager {
         .distinct()
         .forEach(LogAppender::close);
     System.out.println("Logging framework shut down gracefully.");
+  }
+
+  public Logger getLogger(String name) {
+    return loggers.computeIfAbsent(name, key -> new Logger(key));
+  }
+
+  AsyncLogProcessor getProcessor() {
+    return processor;
   }
 }
