@@ -40,17 +40,20 @@ public class S3Demo {
     s3Service.grantFilePermission(alice, "docs", "design.txt", charlie, Permission.WRITE);
     s3Service.updateFile(charlie, "docs", "design.txt", "v3 design", Map.of("type", "text"));
     System.out.println(
-        "Alice reads updated design (by Charlie): " + s3Service.readFile(alice, "docs", "design.txt"));
+        "Alice reads updated design (by Charlie): "
+            + s3Service.readFile(alice, "docs", "design.txt"));
 
     s3Service.revokeFilePermission(alice, "docs", "design.txt", charlie, Permission.WRITE);
     try {
       s3Service.updateFile(charlie, "docs", "design.txt", "v4 design", Map.of("type", "text"));
     } catch (SecurityException ex) {
-      System.out.println("Charlie update denied because WRITE permission on design.txt was revoked");
+      System.out.println(
+          "Charlie update denied because WRITE permission on design.txt was revoked");
     }
 
     System.out.println(
-        "Charlie files after file-level permission revoke: " + s3Service.listFiles(charlie, "docs"));
+        "Charlie files after file-level permission revoke: "
+            + s3Service.listFiles(charlie, "docs"));
     try {
       s3Service.readFile(charlie, "docs", "design.txt");
     } catch (SecurityException ex) {

@@ -11,9 +11,9 @@ import org.example.s3.repository.BucketRepository;
 import org.example.s3.repository.S3ObjectRepository;
 
 /**
- * Service orchestrating operations for the S3-like object storage system.
- * Handles bucket creation/deletion, file operations (upload, read, update, delete, list),
- * and ACL management for both buckets and individual files.
+ * Service orchestrating operations for the S3-like object storage system. Handles bucket
+ * creation/deletion, file operations (upload, read, update, delete, list), and ACL management for
+ * both buckets and individual files.
  */
 public class S3Service {
   private final BucketRepository bucketRepository;
@@ -67,8 +67,8 @@ public class S3Service {
   }
 
   /**
-   * Deletes a bucket and cascades deletion to all objects contained within it.
-   * Requires the calling user to have WRITE permission on the bucket.
+   * Deletes a bucket and cascades deletion to all objects contained within it. Requires the calling
+   * user to have WRITE permission on the bucket.
    *
    * @param userId the ID of the user initiating deletion
    * @param bucketName the name of the bucket to delete
@@ -83,8 +83,8 @@ public class S3Service {
   }
 
   /**
-   * Uploads (creates) a new file within a bucket.
-   * Requires the calling user to have WRITE permission on the destination bucket.
+   * Uploads (creates) a new file within a bucket. Requires the calling user to have WRITE
+   * permission on the destination bucket.
    *
    * @param userId the ID of the user uploading the file
    * @param bucketName the name of the destination bucket
@@ -103,9 +103,8 @@ public class S3Service {
   }
 
   /**
-   * Reads and retrieves the content of a file.
-   * Requires the calling user to have READ access to the file (either via file ACL,
-   * or inherited bucket ACL).
+   * Reads and retrieves the content of a file. Requires the calling user to have READ access to the
+   * file (either via file ACL, or inherited bucket ACL).
    *
    * @param userId the ID of the user reading the file
    * @param bucketName the name of the bucket containing the file
@@ -122,9 +121,8 @@ public class S3Service {
   }
 
   /**
-   * Updates the content and metadata of an existing file.
-   * Requires the calling user to have WRITE access to the file (either via file ACL,
-   * or inherited bucket ACL).
+   * Updates the content and metadata of an existing file. Requires the calling user to have WRITE
+   * access to the file (either via file ACL, or inherited bucket ACL).
    *
    * @param userId the ID of the user updating the file
    * @param bucketName the name of the bucket containing the file
@@ -143,8 +141,8 @@ public class S3Service {
   }
 
   /**
-   * Deletes a specific file from a bucket.
-   * Requires the calling user to have WRITE access to the file.
+   * Deletes a specific file from a bucket. Requires the calling user to have WRITE access to the
+   * file.
    *
    * @param userId the ID of the user deleting the file
    * @param bucketName the name of the bucket containing the file
@@ -184,8 +182,8 @@ public class S3Service {
   }
 
   /**
-   * Grants a bucket-level permission to a target user.
-   * Only the owner of the bucket can grant bucket-level permissions.
+   * Grants a bucket-level permission to a target user. Only the owner of the bucket can grant
+   * bucket-level permissions.
    *
    * @param actorUserId the ID of the user executing the grant (must be the bucket owner)
    * @param bucketName the name of the bucket
@@ -202,8 +200,8 @@ public class S3Service {
   }
 
   /**
-   * Revokes a bucket-level permission from a target user.
-   * Only the owner of the bucket can revoke bucket-level permissions.
+   * Revokes a bucket-level permission from a target user. Only the owner of the bucket can revoke
+   * bucket-level permissions.
    *
    * @param actorUserId the ID of the user executing the revocation (must be the bucket owner)
    * @param bucketName the name of the bucket
@@ -220,8 +218,8 @@ public class S3Service {
   }
 
   /**
-   * Grants a file-level permission to a target user.
-   * Requires the actor to be either the file owner or the bucket owner.
+   * Grants a file-level permission to a target user. Requires the actor to be either the file owner
+   * or the bucket owner.
    *
    * @param actorUserId the ID of the user executing the grant (must be file or bucket owner)
    * @param bucketName the name of the bucket containing the file
@@ -244,8 +242,8 @@ public class S3Service {
   }
 
   /**
-   * Revokes a file-level permission from a target user.
-   * Requires the actor to be either the file owner or the bucket owner.
+   * Revokes a file-level permission from a target user. Requires the actor to be either the file
+   * owner or the bucket owner.
    *
    * @param actorUserId the ID of the user executing the revocation (must be file or bucket owner)
    * @param bucketName the name of the bucket containing the file

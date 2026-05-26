@@ -4,8 +4,8 @@ import java.time.Instant;
 import lombok.Getter;
 
 /**
- * Represents an S3-like bucket containing objects/files.
- * Tracks bucket name, owner identity, creation timestamp, and bucket-level ACL settings.
+ * Represents an S3-like bucket containing objects/files. Tracks bucket name, owner identity,
+ * creation timestamp, and bucket-level ACL settings.
  */
 @Getter
 public class Bucket {

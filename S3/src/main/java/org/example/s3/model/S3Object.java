@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 
 /**
- * Represents an S3 object (file) stored within a specific bucket.
- * Tracks location (bucket name), identification key, content, metadata tags, owners,
- * audit timestamps, and individual file-level ACL configurations.
+ * Represents an S3 object (file) stored within a specific bucket. Tracks location (bucket name),
+ * identification key, content, metadata tags, owners, audit timestamps, and individual file-level
+ * ACL configurations.
  */
 @Getter
 public class S3Object {

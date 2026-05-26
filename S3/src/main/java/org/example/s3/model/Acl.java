@@ -7,15 +7,15 @@ import java.util.Set;
 import org.example.s3.enums.Permission;
 
 /**
- * Models an Access Control List (ACL) for managing permissions.
- * Maps individual user IDs to sets of active {@link Permission}s.
+ * Models an Access Control List (ACL) for managing permissions. Maps individual user IDs to sets of
+ * active {@link Permission}s.
  */
 public class Acl {
   private final Map<String, Set<Permission>> userPermissions = new HashMap<>();
 
   /**
-   * Grants a specific permission to the designated user.
-   * If no permissions exist for the user, a new set is instantiated.
+   * Grants a specific permission to the designated user. If no permissions exist for the user, a
+   * new set is instantiated.
    *
    * @param userId the ID of the user receiving the permission
    * @param permission the permission (READ/WRITE) to grant
@@ -32,8 +32,8 @@ public class Acl {
   }
 
   /**
-   * Revokes a specific permission from the designated user.
-   * If the user's permission set becomes empty, their entry is removed from the map.
+   * Revokes a specific permission from the designated user. If the user's permission set becomes
+   * empty, their entry is removed from the map.
    *
    * @param userId the ID of the user losing the permission
    * @param permission the permission (READ/WRITE) to revoke

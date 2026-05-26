@@ -12,9 +12,7 @@ import org.example.s3.strategy.AuthorizationStrategy;
 public class AuthorizationService {
   private final AuthorizationStrategy authorizationStrategy;
 
-  /**
-   * Constructs a new AuthorizationService using the default {@link AuthorizationStrategy}.
-   */
+  /** Constructs a new AuthorizationService using the default {@link AuthorizationStrategy}. */
   public AuthorizationService() {
     this(new AuthorizationStrategy());
   }
@@ -68,8 +66,8 @@ public class AuthorizationService {
   }
 
   /**
-   * Asserts that the user is either the file/object owner or the bucket owner.
-   * Useful for administrative and modification tasks (like file ACL management).
+   * Asserts that the user is either the file/object owner or the bucket owner. Useful for
+   * administrative and modification tasks (like file ACL management).
    *
    * @param userId the ID of the user to assert permissions for
    * @param bucket the containing bucket
@@ -112,16 +110,12 @@ public class AuthorizationService {
     }
   }
 
-  /**
-   * Internal helper to verify if the user owns the bucket.
-   */
+  /** Internal helper to verify if the user owns the bucket. */
   private boolean isBucketOwner(String userId, Bucket bucket) {
     return bucket.getOwnerUserId().equals(userId);
   }
 
-  /**
-   * Internal helper to verify if the user owns the specific object.
-   */
+  /** Internal helper to verify if the user owns the specific object. */
   private boolean isObjectOwner(String userId, S3Object object) {
     return object.getOwnerUserId().equals(userId);
   }

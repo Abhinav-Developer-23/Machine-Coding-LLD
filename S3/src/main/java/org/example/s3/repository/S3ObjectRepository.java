@@ -14,9 +14,7 @@ public class S3ObjectRepository {
   private static final S3ObjectRepository INSTANCE = new S3ObjectRepository();
   private static final ConcurrentHashMap<String, S3Object> OBJECTS = new ConcurrentHashMap<>();
 
-  /**
-   * Private constructor to enforce the singleton design pattern.
-   */
+  /** Private constructor to enforce the singleton design pattern. */
   private S3ObjectRepository() {}
 
   /**
@@ -77,8 +75,8 @@ public class S3ObjectRepository {
   }
 
   /**
-   * Deletes all objects associated with a specific bucket name.
-   * Typically called when a bucket is being deleted.
+   * Deletes all objects associated with a specific bucket name. Typically called when a bucket is
+   * being deleted.
    *
    * @param bucketName the name of the bucket whose objects should be cleared
    */

@@ -13,9 +13,7 @@ public class BucketRepository {
   private static final BucketRepository INSTANCE = new BucketRepository();
   private static final ConcurrentHashMap<String, Bucket> BUCKETS = new ConcurrentHashMap<>();
 
-  /**
-   * Private constructor to enforce the singleton design pattern.
-   */
+  /** Private constructor to enforce the singleton design pattern. */
   private BucketRepository() {}
 
   /**
