@@ -33,6 +33,7 @@
 
         <module>VendingMachine</module>
         <module>LoggerSystem</module>
+        <module>ATM</module>
     </modules>
 
     <properties>
