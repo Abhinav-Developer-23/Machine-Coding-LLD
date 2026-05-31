@@ -10,7 +10,6 @@ import atm.entities.Card;
 import atm.enums.OperationType;
 import atm.states.ATMState;
 import atm.states.IdleState;
-import java.util.concurrent.atomic.AtomicLong;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,6 @@ public class ATM {
   private static ATM INSTANCE;
   @Getter private final BankService bankService;
   private final CashDispenser cashDispenser;
-  private static final AtomicLong transactionCounter = new AtomicLong(0);
   private ATMState currentState;
   @Getter @Setter private Card currentCard;
 
@@ -54,8 +52,8 @@ public class ATM {
     currentState.enterPin(this, pin);
   }
 
-  public void selectOperation(OperationType op, int... args) {
-    currentState.selectOperation(this, op, args);
+  public void selectOperation(OperationType op, int amount) {
+    currentState.selectOperation(this, op, amount);
   }
 
   public void checkBalance() {

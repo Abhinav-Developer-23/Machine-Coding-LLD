@@ -26,7 +26,7 @@ public class HasCardState implements ATMState {
   }
 
   @Override
-  public void selectOperation(ATM atm, OperationType op, int... args) {
+  public void selectOperation(ATM atm, OperationType op, int amount) {
     System.out.println("Error: Please enter your PIN first to select an operation.");
   }
 

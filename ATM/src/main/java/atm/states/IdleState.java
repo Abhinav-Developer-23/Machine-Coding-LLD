@@ -24,7 +24,7 @@ public class IdleState implements ATMState {
   }
 
   @Override
-  public void selectOperation(ATM atm, OperationType op, int... args) {
+  public void selectOperation(ATM atm, OperationType op, int amount) {
     System.out.println("Error: Please insert a card first.");
   }
 

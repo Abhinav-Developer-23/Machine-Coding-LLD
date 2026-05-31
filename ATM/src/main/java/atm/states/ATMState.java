@@ -8,7 +8,7 @@ public interface ATMState {
 
   void enterPin(ATM atm, String pin);
 
-  void selectOperation(ATM atm, OperationType op, int... args);
+  void selectOperation(ATM atm, OperationType op, int amount);
 
   void ejectCard(ATM atm);
 }

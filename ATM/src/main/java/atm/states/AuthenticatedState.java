@@ -15,7 +15,7 @@ public class AuthenticatedState implements ATMState {
   }
 
   @Override
-  public void selectOperation(ATM atm, OperationType op, int... args) {
+  public void selectOperation(ATM atm, OperationType op, int amount) {
     // In a real UI, this would be a menu. Here we use a switch.
     switch (op) {
       case CHECK_BALANCE:
@@ -23,32 +23,30 @@ public class AuthenticatedState implements ATMState {
         break;
 
       case WITHDRAW_CASH:
-        if (args.length == 0 || args[0] <= 0) {
+        if (amount <= 0) {
           System.out.println("Error: Invalid withdrawal amount specified.");
           break;
         }
-        int amountToWithdraw = args[0];
 
         double accountBalance = atm.getBankService().getBalance(atm.getCurrentCard());
 
-        if (amountToWithdraw > accountBalance) {
+        if (amount > accountBalance) {
           System.out.println("Error: Insufficient balance.");
           break;
         }
 
-        System.out.println("Processing withdrawal for $" + amountToWithdraw);
+        System.out.println("Processing withdrawal for $" + amount);
         // Delegate the complex withdrawal logic to the ATM's dedicated method
-        atm.withdrawCash(amountToWithdraw);
+        atm.withdrawCash(amount);
         break;
 
       case DEPOSIT_CASH:
-        if (args.length == 0 || args[0] <= 0) {
+        if (amount <= 0) {
           System.out.println("Error: Invalid deposit amount specified.");
           break;
         }
-        int amountToDeposit = args[0];
-        System.out.println("Processing deposit for $" + amountToDeposit);
-        atm.depositCash(amountToDeposit);
+        System.out.println("Processing deposit for $" + amount);
+        atm.depositCash(amount);
         break;
 
       default:
