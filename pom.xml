@@ -34,6 +34,7 @@
         <module>VendingMachine</module>
         <module>LoggerSystem</module>
         <module>ATM</module>
+        <module>MovieTicketBookingSystem</module>
     </modules>
 
     <properties>
