@@ -35,6 +35,7 @@
         <module>LoggerSystem</module>
         <module>ATM</module>
         <module>MovieTicketBookingSystem</module>
+        <module>MovieTicketBookingSystem2</module>
     </modules>
 
     <properties>

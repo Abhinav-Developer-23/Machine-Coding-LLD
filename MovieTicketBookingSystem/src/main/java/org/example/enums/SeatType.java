@@ -1,17 +1,17 @@
 package org.example.enums;
 
 public enum SeatType {
-    REGULAR(50.0),
-    PREMIUM(80.0),
-    RECLINER(120.0);
+  REGULAR(50.0),
+  PREMIUM(80.0),
+  RECLINER(120.0);
 
-    private final double price;
+  private final double price;
 
-    SeatType(double price) {
-        this.price = price;
-    }
+  SeatType(double price) {
+    this.price = price;
+  }
 
-    public double getPrice() {
-        return price;
-    }
+  public double getPrice() {
+    return price;
+  }
 }
