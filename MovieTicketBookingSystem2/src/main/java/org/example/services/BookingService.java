@@ -2,7 +2,6 @@ package org.example.services;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.example.models.Booking;
@@ -13,12 +12,11 @@ import org.example.strategies.ISeatLockProvider;
 
 public class BookingService {
   // Stores all bookings made across shows (key = booking ID)
-  // Changed to a thread-safe concurrent map.
   private final Map<String, Booking> showBookings;
   // Provider responsible for handling temporary seat locks
   private final ISeatLockProvider seatLockProvider;
-  // Atomic integer to generate unique booking IDs
-  private final AtomicInteger bookingIdCounter = new AtomicInteger(1);
+  // Plain int counter to generate unique booking IDs
+  private int bookingIdCounter = 1;
 
   // Constructor to initialize dependencies
   public BookingService(ISeatLockProvider seatLockProvider) {
@@ -48,8 +46,8 @@ public class BookingService {
     // Lock the seats temporarily for the user (this will throw an exception if any seat is already
     // locked)
     seatLockProvider.lockSeats(show, seats, user);
-    // Create a new booking with a unique booking ID using AtomicInteger
-    final String bookingId = String.valueOf(bookingIdCounter.getAndIncrement());
+    // Create a new booking with a unique booking ID
+    final String bookingId = String.valueOf(bookingIdCounter++);
     final Booking newBooking = new Booking(bookingId, show, user, seats);
     // Save the booking
     showBookings.put(bookingId, newBooking);

@@ -2,17 +2,17 @@ package org.example.services;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import org.example.enums.MovieGenre;
 import org.example.models.Movie;
 
 public class MovieService {
   private final Map<Integer, Movie> movies;
-  private final AtomicInteger movieCounter; // Private counter for generating movie IDs
+  private int movieCounter; // Private counter for generating movie IDs
 
   public MovieService() {
     this.movies = new HashMap<>();
-    this.movieCounter = new AtomicInteger(0); // Initialize the counter to 0
+    this.movieCounter = 0; // Initialize the counter to 0
   }
 
   public Movie getMovie(final int movieId) throws Exception {
@@ -22,9 +22,10 @@ public class MovieService {
     return movies.get(movieId);
   }
 
-  public Movie createMovie(final String movieName, final int durationInMinutes) {
-    int movieId = movieCounter.incrementAndGet(); // Increment the counter and get the new value.
-    Movie movie = new Movie(movieId, movieName, durationInMinutes);
+  public Movie createMovie(
+      final String movieName, final int durationInMinutes, final MovieGenre movieGenre) {
+    int movieId = ++movieCounter;
+    Movie movie = new Movie(movieId, movieName, durationInMinutes, movieGenre);
     movies.put(movieId, movie);
     return movie;
   }

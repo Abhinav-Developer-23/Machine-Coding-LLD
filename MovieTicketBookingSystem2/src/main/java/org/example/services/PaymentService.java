@@ -13,7 +13,7 @@ public class PaymentService {
 
   // The strategy which the user will decide to do the payment
   private final PaymentStrategy paymentStrategy;
-  private BookingService bookingService;
+  private final BookingService bookingService;
 
   public PaymentService(PaymentStrategy paymentStrategy, BookingService bookingService) {
     this.bookingFailures = new ConcurrentHashMap<>();

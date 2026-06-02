@@ -2,7 +2,6 @@ package org.example.services;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.example.enums.SeatCategory;
 import org.example.models.Screen;
@@ -15,19 +14,19 @@ public class TheatreService {
   private final Map<Integer, Screen> screens;
   private final Map<Integer, Seat> seats;
 
-  // Atomic counters for generating unique IDs
-  private final AtomicInteger theatreCounter;
-  private final AtomicInteger screenCounter;
-  private final AtomicInteger seatCounter;
+  // Plain int counters for generating unique IDs
+  private int theatreCounter;
+  private int screenCounter;
+  private int seatCounter;
 
   // Constructor initializing all maps and counters
   public TheatreService() {
     this.theatres = new HashMap<>();
     this.screens = new HashMap<>();
     this.seats = new HashMap<>();
-    this.theatreCounter = new AtomicInteger(0);
-    this.screenCounter = new AtomicInteger(0);
-    this.seatCounter = new AtomicInteger(0);
+    this.theatreCounter = 0;
+    this.screenCounter = 0;
+    this.seatCounter = 0;
   }
 
   // Retrieves a seat by ID, throws exception if not found
@@ -56,7 +55,7 @@ public class TheatreService {
 
   // Creates a new theatre with a unique ID and stores it
   public Theatre createTheatre(final String theatreName) {
-    int theatreId = theatreCounter.incrementAndGet(); // Generate unique ID
+    int theatreId = ++theatreCounter; // Generate unique ID
     Theatre theatre = new Theatre(theatreId, theatreName);
     theatres.put(theatreId, theatre); // Store theatre in map
     return theatre;
@@ -72,7 +71,7 @@ public class TheatreService {
   // Creates a new seat in the given screen and stores it
   public Seat createSeatInScreen(
       final Integer rowNo, SeatCategory seatCategory, final Screen screen) {
-    int seatId = seatCounter.incrementAndGet(); // Generate unique seat ID
+    int seatId = ++seatCounter; // Generate unique seat ID
     Seat seat = new Seat(seatId, rowNo, seatCategory);
     seats.put(seatId, seat); // Store seat in map
     screen.addSeat(seat); // Link seat to screen
@@ -81,7 +80,7 @@ public class TheatreService {
 
   // Private helper to create a screen with unique ID and store it
   private Screen createScreen(final String screenName, final Theatre theatre) {
-    int screenId = screenCounter.incrementAndGet(); // Generate unique ID
+    int screenId = ++screenCounter; // Generate unique ID
     Screen screen = new Screen(screenId, screenName, theatre);
     screens.put(screenId, screen); // Store screen in map
     return screen;

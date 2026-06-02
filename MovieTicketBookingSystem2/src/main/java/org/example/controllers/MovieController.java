@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.enums.MovieGenre;
 import org.example.services.MovieService;
 
 public class MovieController {
@@ -11,7 +12,8 @@ public class MovieController {
     this.movieService = movieService;
   }
 
-  public int createMovie(final String movieName, final int durationInMinutes) {
-    return movieService.createMovie(movieName, durationInMinutes).getMovieId();
+  public int createMovie(
+      final String movieName, final int durationInMinutes, final MovieGenre movieGenre) {
+    return movieService.createMovie(movieName, durationInMinutes, movieGenre).getMovieId();
   }
 }

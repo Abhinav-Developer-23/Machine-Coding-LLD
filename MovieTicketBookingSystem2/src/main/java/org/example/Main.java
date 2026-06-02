@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.example.controllers.*;
+import org.example.enums.MovieGenre;
 import org.example.enums.SeatCategory;
 import org.example.models.Booking;
 import org.example.models.User;
@@ -71,7 +72,7 @@ public class Main {
 
       // Step 4: Create a movie
       System.out.println("\nCreating a new movie...");
-      int movieId = movieController.createMovie("Inception", 150);
+      int movieId = movieController.createMovie("Inception", 150, MovieGenre.SCI_FI);
       System.out.println("Movie created with ID: " + movieId);
 
       // Step 5: Create a show

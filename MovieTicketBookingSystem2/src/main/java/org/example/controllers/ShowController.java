@@ -14,7 +14,7 @@ import org.example.services.ShowService;
 import org.example.services.TheatreService;
 
 public class ShowController {
-  // Dependencies injected for handling show operations, theatre data, movie data, and seat
+  // Dependencies injected for handling show operations, theater data, movie data, and seat
   // availability.
   private final SeatAvailabilityService seatAvailabilityService;
   private final ShowService showService;

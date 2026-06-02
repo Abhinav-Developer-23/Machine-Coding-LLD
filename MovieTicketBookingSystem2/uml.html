@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Ticket Booking System — UML Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0d0f1a;
+      --surface: #13162a;
+      --card:    #181c35;
+      --border:  #2a2f55;
+      --accent1: #7c6af7;
+      --accent2: #3ecfcf;
+      --text:    #e8eaf6;
+      --muted:   #7b80a8;
+      --glow1:   rgba(124,106,247,0.18);
+      --glow2:   rgba(62,207,207,0.14);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 40px 24px 80px;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% 10%, var(--glow1), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 80%, var(--glow2), transparent);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    header p { color: var(--muted); font-size: 0.92rem; }
+
+    .section {
+      max-width: 1400px;
+      margin: 0 auto 40px;
+    }
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 16px;
+      padding-left: 4px;
+    }
+
+    .diagram-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 24px;
+      overflow-x: auto;
+      position: relative;
+    }
+    .diagram-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: radial-gradient(ellipse at top left, rgba(124,106,247,.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* override mermaid default white bg */
+    .mermaid svg {
+      background: transparent !important;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">UML Class Diagram</div>
+  <h1>Movie Ticket Booking System</h1>
+  <p>Full class hierarchy · relationships · design patterns</p>
+</header>
+
+<!-- ① Full Class Diagram -->
+<div class="section">
+  <div class="section-title">① Full Class Diagram</div>
+  <div class="diagram-card">
+    <div class="mermaid">
+classDiagram
+  direction TB
+
+  %% ─── ENUMS ───
+  class BookingStatus {
+    <<enumeration>>
+    CREATED
+    CONFIRMED
+    EXPIRED
+  }
+
+  class SeatCategory {
+    <<enumeration>>
+    SILVER
+    GOLD
+    PLATINUM
+  }
+
+  class MovieGenre {
+    <<enumeration>>
+    ACTION
+    COMEDY
+    DRAMA
+    HORROR
+    ROMANCE
+    THRILLER
+    SCI_FI
+    ANIMATION
+    DOCUMENTARY
+    FANTASY
+  }
+
+  %% ─── MODELS ───
+  class Movie {
+    +int movieId
+    +String movieName
+    +int movieDurationInMinutes
+  }
+
+  class Theatre {
+    +int theatreId
+    +String name
+    +List~Screen~ screen
+    +addScreen(Screen screen)
+  }
+
+  class Screen {
+    +int screenId
+    +String name
+    +Theatre theatre
+    +List~Seat~ seats
+    +addSeat(Seat seat)
+  }
+
+  class Seat {
+    +int seatId
+    +int row
+    +SeatCategory seatCategory
+  }
+
+  class Show {
+    +int id
+    +Movie movie
+    +Screen screen
+    +Date startTime
+    +Integer durationInMinutes
+  }
+
+  class User {
+    +String userName
+    +String userEmail
+  }
+
+  class Booking {
+    +String id
+    +Show show
+    +List~Seat~ seatsBooked
+    +User user
+    +BookingStatus bookingStatus
+    +isConfirmed() boolean
+    +confirmBooking()
+    +expireBooking()
+  }
+
+  class SeatLock {
+    +Seat seat
+    +Show show
+    +Integer timeoutInSeconds
+    +Date lockTime
+    +User lockedBy
+    +isLockExpired() boolean
+  }
+
+  %% ─── INTERFACES ───
+  class ISeatLockProvider {
+    <<interface>>
+    +lockSeats(Show, List~Seat~, User)
+    +unlockSeats(Show, List~Seat~, User)
+    +validateLock(Show, Seat, User) boolean
+    +getLockedSeats(Show) List~Seat~
+  }
+
+  class PaymentStrategy {
+    <<interface>>
+    +processPayment() boolean
+  }
+
+  %% ─── STRATEGIES ───
+  class SeatLockProvider {
+    +Integer lockTimeout
+    +Map locks
+    +lockSeats(Show, List~Seat~, User)
+    +unlockSeats(Show, List~Seat~, User)
+    +validateLock(Show, Seat, User) boolean
+    +getLockedSeats(Show) List~Seat~
+  }
+
+  class DebitCardStrategy {
+    +processPayment() boolean
+  }
+
+  class UpiStrategy {
+    +processPayment() boolean
+  }
+
+  %% ─── SERVICES ───
+  class MovieService {
+    +Map~int_Movie~ movies
+    +int movieCounter
+    +getMovie(int) Movie
+    +createMovie(String, int) Movie
+  }
+
+  class TheatreService {
+    +Map~int_Theatre~ theatres
+    +Map~int_Screen~ screens
+    +Map~int_Seat~ seats
+    +int theatreCounter
+    +int screenCounter
+    +int seatCounter
+    +createTheatre(String) Theatre
+    +createScreenInTheatre(String, Theatre) Screen
+    +createSeatInScreen(int, SeatCategory, Screen) Seat
+    +getTheatre(int) Theatre
+    +getScreen(int) Screen
+    +getSeat(int) Seat
+  }
+
+  class ShowService {
+    +Map~int_Show~ shows
+    +int showCounter
+    +getShow(int) Show
+    +createShow(Movie, Screen, Date, int) Show
+  }
+
+  class BookingService {
+    +Map~String_Booking~ showBookings
+    +int bookingIdCounter
+    +ISeatLockProvider seatLockProvider
+    +createBooking(User, Show, List~Seat~) Booking
+    +confirmBooking(Booking, User)
+    +getBookedSeats(Show) List~Seat~
+    +getBooking(String) Booking
+  }
+
+  class SeatAvailabilityService {
+    +BookingService bookingService
+    +ISeatLockProvider seatLockProvider
+    +getAvailableSeats(Show) List~Seat~
+  }
+
+  class PaymentService {
+    +Map~Booking_int~ bookingFailures
+    +PaymentStrategy paymentStrategy
+    +BookingService bookingService
+    +processPayment(String, User)
+    +processPaymentFailed(String, User)
+  }
+
+  %% ─── CONTROLLERS ───
+  class MovieController {
+    +MovieService movieService
+    +createMovie(String, int) int
+  }
+
+  class TheatreController {
+    +TheatreService theatreService
+    +createTheatre(String) int
+    +createScreenInTheatre(String, int) int
+    +createSeatInScreen(int, SeatCategory, int) int
+  }
+
+  class ShowController {
+    +ShowService showService
+    +TheatreService theatreService
+    +MovieService movieService
+    +SeatAvailabilityService seatAvailabilityService
+    +createShow(int, int, Date, int) int
+    +getAvailableSeats(int) List~int~
+  }
+
+  class BookingController {
+    +ShowService showService
+    +BookingService bookingService
+    +TheatreService theatreService
+    +createBooking(User, int, List~int~) String
+  }
+
+  class PaymentController {
+    +PaymentService paymentService
+    +processPayment(String, User)
+  }
+
+  %% ─── RELATIONSHIPS ───
+
+  Theatre "1" *-- "many" Screen : contains
+  Screen  "1" *-- "many" Seat   : has
+
+  Show    "many" --> "1" Movie  : screens
+  Show    "many" --> "1" Screen : scheduled on
+
+  Booking "many" --> "1" Show   : for
+  Booking "many" --> "1" User   : by
+  Booking "many" --> "many" Seat : reserves
+
+  SeatLock --> Seat  : locks
+  SeatLock --> Show  : for
+  SeatLock --> User  : locked by
+
+  Seat --> SeatCategory : categorized as
+  Booking --> BookingStatus : has status
+
+  ISeatLockProvider <|.. SeatLockProvider : implements
+  PaymentStrategy   <|.. DebitCardStrategy : implements
+  PaymentStrategy   <|.. UpiStrategy       : implements
+
+  BookingService    --> ISeatLockProvider  : uses
+  SeatAvailabilityService --> BookingService     : uses
+  SeatAvailabilityService --> ISeatLockProvider  : uses
+  PaymentService    --> PaymentStrategy    : uses
+  PaymentService    --> BookingService     : uses
+
+  MovieController   --> MovieService
+  TheatreController --> TheatreService
+  ShowController    --> ShowService
+  ShowController    --> TheatreService
+  ShowController    --> MovieService
+  ShowController    --> SeatAvailabilityService
+  BookingController --> ShowService
+  BookingController --> BookingService
+  BookingController --> TheatreService
+  PaymentController --> PaymentService
+    </div>
+  </div>
+</div>
+
+<!-- ② Strategy Pattern Zoom -->
+<div class="section">
+  <div class="section-title">② Strategy Pattern — Seat Lock &amp; Payment</div>
+  <div class="diagram-card">
+    <div class="mermaid">
+classDiagram
+  direction LR
+
+  class ISeatLockProvider {
+    <<interface>>
+    +lockSeats(Show, List~Seat~, User)
+    +unlockSeats(Show, List~Seat~, User)
+    +validateLock(Show, Seat, User) boolean
+    +getLockedSeats(Show) List~Seat~
+  }
+
+  class SeatLockProvider {
+    +Integer lockTimeout
+    +Map~Show_Map~ locks
+    +lockSeats(Show, List~Seat~, User)
+    +unlockSeats(Show, List~Seat~, User)
+    +validateLock(Show, Seat, User) boolean
+    +getLockedSeats(Show) List~Seat~
+  }
+
+  class PaymentStrategy {
+    <<interface>>
+    +processPayment() boolean
+  }
+
+  class DebitCardStrategy {
+    +processPayment() boolean
+  }
+
+  class UpiStrategy {
+    +processPayment() boolean
+  }
+
+  class BookingService {
+    +ISeatLockProvider seatLockProvider
+    +createBooking(User, Show, List~Seat~) Booking
+  }
+
+  class PaymentService {
+    +PaymentStrategy paymentStrategy
+    +processPayment(String, User)
+  }
+
+  ISeatLockProvider <|.. SeatLockProvider : implements
+  PaymentStrategy   <|.. DebitCardStrategy : implements
+  PaymentStrategy   <|.. UpiStrategy       : implements
+  BookingService    --> ISeatLockProvider  : depends on
+  PaymentService    --> PaymentStrategy    : depends on
+    </div>
+  </div>
+</div>
+
+<!-- ③ Booking State Machine -->
+<div class="section">
+  <div class="section-title">③ Booking Status — State Machine</div>
+  <div class="diagram-card">
+    <div class="mermaid">
+stateDiagram-v2
+  [*] --> CREATED : new Booking()
+  CREATED --> CONFIRMED : confirmBooking()\n[lock valid + payment OK]
+  CREATED --> EXPIRED   : expireBooking()\n[timeout / cancelled]
+  CONFIRMED --> [*]
+  EXPIRED   --> [*]
+    </div>
+  </div>
+</div>
+
+<!-- ④ Sequence Diagram -->
+<div class="section">
+  <div class="section-title">④ End-to-End Sequence — Create &amp; Confirm Booking</div>
+  <div class="diagram-card">
+    <div class="mermaid">
+sequenceDiagram
+  actor User
+  participant BC as BookingController
+  participant BS as BookingService
+  participant SLP as SeatLockProvider
+  participant PC as PaymentController
+  participant PS as PaymentService
+  participant PAY as PaymentStrategy
+
+  User->>BC: createBooking(user, showId, [1,2,3])
+  BC->>BS: createBooking(user, show, [s1,s2,s3])
+  BS->>BS: isAnySeatAlreadyBooked? → NO
+  BS->>SLP: lockSeats(show, [s1,s2,s3], user)
+  SLP-->>BS: seats locked ✔
+  BS-->>BC: Booking [id="1", CREATED]
+  BC-->>User: bookingId = "1"
+
+  User->>PC: processPayment("1", user)
+  PC->>PS: processPayment("1", user)
+  PS->>PAY: processPayment()
+  PAY-->>PS: true (DebitCard success)
+  PS->>BS: confirmBooking(booking, user)
+  BS->>SLP: validateLock(show, s1, user) → valid
+  BS->>SLP: validateLock(show, s2, user) → valid
+  BS->>SLP: validateLock(show, s3, user) → valid
+  BS->>BS: booking.confirmBooking() → CONFIRMED
+  BS-->>PS: ok
+  PS-->>PC: ok
+  PC-->>User: Payment successful ✔
+    </div>
+  </div>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      darkMode: true,
+      background:        '#181c35',
+      primaryColor:      '#2a2f55',
+      primaryTextColor:  '#e8eaf6',
+      primaryBorderColor:'#7c6af7',
+      lineColor:         '#3ecfcf',
+      secondaryColor:    '#13162a',
+      tertiaryColor:     '#0d0f1a',
+      edgeLabelBackground: '#181c35',
+      fontFamily:        'Inter, sans-serif',
+    },
+    classDiagram: { htmlLabels: true },
+    sequence: {
+      actorFontFamily: 'Inter, sans-serif',
+      noteFontFamily:  'Inter, sans-serif',
+      messageFontFamily: 'Inter, sans-serif',
+    }
+  });
+</script>
+</body>
+</html>

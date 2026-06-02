@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Ticket Booking System — Architecture Diagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0d0f1a;
+      --surface:   #13162a;
+      --card:      #181c35;
+      --border:    #2a2f55;
+      --accent1:   #7c6af7;
+      --accent2:   #3ecfcf;
+      --accent3:   #f7a23e;
+      --accent4:   #e05c8a;
+      --accent5:   #56d98e;
+      --text:      #e8eaf6;
+      --muted:     #7b80a8;
+      --glow1:     rgba(124,106,247,0.18);
+      --glow2:     rgba(62,207,207,0.14);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% 10%, var(--glow1), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 80%, var(--glow2), transparent);
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Grid layout ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      max-width: 1300px;
+      margin: 0 auto 40px;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card.violet::before { background: radial-gradient(ellipse at top left, rgba(124,106,247,.08), transparent 60%); }
+    .card.teal::before   { background: radial-gradient(ellipse at top left, rgba(62,207,207,.08), transparent 60%); }
+    .card.orange::before { background: radial-gradient(ellipse at top left, rgba(247,162,62,.08), transparent 60%); }
+    .card.pink::before   { background: radial-gradient(ellipse at top left, rgba(224,92,138,.08), transparent 60%); }
+    .card.green::before  { background: radial-gradient(ellipse at top left, rgba(86,217,142,.08), transparent 60%); }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .violet .dot { background: var(--accent1); box-shadow: 0 0 8px var(--accent1); }
+    .teal   .dot { background: var(--accent2); box-shadow: 0 0 8px var(--accent2); }
+    .orange .dot { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
+    .pink   .dot { background: var(--accent4); box-shadow: 0 0 8px var(--accent4); }
+    .green  .dot { background: var(--accent5); box-shadow: 0 0 8px var(--accent5); }
+
+    pre {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* colour tokens inside pre */
+    .kw  { color: var(--accent1); }   /* keywords / class names */
+    .op  { color: var(--muted);   }   /* box chars, arrows */
+    .val { color: var(--accent2); }   /* values */
+    .cmt { color: var(--accent5); }   /* comments */
+    .lit { color: var(--accent3); }   /* literals */
+    .err { color: var(--accent4); }   /* error / status */
+
+    /* ── Full-width diagram card ── */
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 36px;
+      align-items: center;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .legend-item span.sym {
+      font-family: 'Fira Code', monospace;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">LLD Design</div>
+  <h1>Movie Ticket Booking System</h1>
+  <p>Architecture · Class Hierarchy · Design Patterns</p>
+</header>
+
+<div class="grid">
+
+  <!-- ① Physical Hierarchy -->
+  <div class="card violet full">
+    <div class="card-title"><span class="dot"></span>Physical Structure Hierarchy</div>
+    <pre>
+<span class="cmt">┌─────────────────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="cmt">│                           PHYSICAL STRUCTURE  (permanent, never changes)                        │</span>
+<span class="cmt">└─────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="kw">Theatre</span> <span class="op">("PVR Cinemas")</span>
+  <span class="op">│   id : int</span>
+  <span class="op">│   name : String</span>
+  <span class="op">│   screens : List&lt;Screen&gt;</span>
+  <span class="op">│</span>
+  <span class="op">├──▶</span> <span class="kw">Screen</span> <span class="op">("IMAX Hall")</span>
+  <span class="op">│       id : int</span>
+  <span class="op">│       name : String</span>
+  <span class="op">│       theatre : Theatre</span>
+  <span class="op">│       seats : List&lt;Seat&gt;</span>
+  <span class="op">│       │</span>
+  <span class="op">│       ├──▶</span> <span class="kw">Seat</span> <span class="val">[id=1, row=1, category=PLATINUM]</span>
+  <span class="op">│       ├──▶</span> <span class="kw">Seat</span> <span class="val">[id=2, row=1, category=PLATINUM]</span>
+  <span class="op">│       ├──▶</span> <span class="kw">Seat</span> <span class="val">[id=3, row=2, category=GOLD]</span>
+  <span class="op">│       ├──▶</span> <span class="kw">Seat</span> <span class="val">[id=4, row=2, category=GOLD]</span>
+  <span class="op">│       └──▶</span> <span class="kw">Seat</span> <span class="val">[id=5, row=3, category=SILVER]</span>
+  <span class="op">│               ... (more seats)</span>
+  <span class="op">│</span>
+  <span class="op">└──▶</span> <span class="kw">Screen</span> <span class="op">("4DX Hall")</span>
+          <span class="op">└──▶</span> <span class="kw">Seat</span> <span class="val">[id=51, row=1, ...]</span>
+              <span class="op">...</span>
+</pre>
+  </div>
+
+  <!-- ② Show Scheduling -->
+  <div class="card teal">
+    <div class="card-title"><span class="dot"></span>Show — Scheduling Layer</div>
+    <pre>
+<span class="cmt">┌──────────────────────────────────────────┐</span>
+<span class="cmt">│  Show sits ON TOP of Screen (time slot)  │</span>
+<span class="cmt">└──────────────────────────────────────────┘</span>
+
+<span class="kw">Screen</span> <span class="op">("IMAX Hall")</span>
+  <span class="op">│</span>
+  <span class="op">├──▶</span> <span class="kw">Show</span> <span class="val">A</span>
+  <span class="op">│       movie    : Inception</span>
+  <span class="op">│       screen   : IMAX Hall</span>
+  <span class="op">│       startTime: 14:00</span>
+  <span class="op">│       duration : 150 min</span>
+  <span class="op">│</span>
+  <span class="op">├──▶</span> <span class="kw">Show</span> <span class="val">B</span>
+  <span class="op">│       movie    : Inception</span>
+  <span class="op">│       startTime: 18:00</span>
+  <span class="op">│</span>
+  <span class="op">└──▶</span> <span class="kw">Show</span> <span class="val">C</span>
+          movie    : Avengers
+          startTime: 21:00
+
+<span class="cmt">  ⚡ Same physical seat can be booked</span>
+<span class="cmt">     independently for each show!</span>
+</pre>
+  </div>
+
+  <!-- ③ Booking Flow -->
+  <div class="card orange">
+    <div class="card-title"><span class="dot"></span>Booking Flow</div>
+    <pre>
+<span class="cmt">┌─────────────────────────────────────────┐</span>
+<span class="cmt">│  Booking ties User + Show + Seats       │</span>
+<span class="cmt">└─────────────────────────────────────────┘</span>
+
+<span class="kw">Booking</span>
+  <span class="op">│   id            : "1"</span>
+  <span class="op">│   show          : Show A (14:00)</span>
+  <span class="op">│   user          : John Doe</span>
+  <span class="op">│   seatsBooked   : [Seat#1, Seat#2]</span>
+  <span class="op">│   bookingStatus :</span> <span class="val">CREATED</span>
+  <span class="op">│                    ──▶</span> <span class="cmt">CONFIRMED</span>
+  <span class="op">│                    ──▶</span> <span class="err">EXPIRED</span>
+
+<span class="kw">User</span>
+  <span class="op">│   userName  : "John Doe"</span>
+  <span class="op">│   userEmail : "john@email.com"</span>
+
+<span class="kw">BookingStatus</span> <span class="op">(enum)</span>
+  <span class="op">├──</span> <span class="val">CREATED</span>   <span class="cmt">← initial state</span>
+  <span class="op">├──</span> <span class="cmt">CONFIRMED</span> <span class="cmt">← after payment</span>
+  <span class="op">└──</span> <span class="err">EXPIRED</span>   <span class="cmt">← timeout</span>
+</pre>
+  </div>
+
+  <!-- ④ Enums -->
+  <div class="card pink">
+    <div class="card-title"><span class="dot"></span>Enums</div>
+    <pre>
+<span class="kw">SeatCategory</span> <span class="op">(enum)</span>
+  <span class="op">├──</span> <span class="err">PLATINUM</span>  <span class="cmt">← row 1, luxury</span>
+  <span class="op">├──</span> <span class="val">GOLD</span>      <span class="cmt">← rows 2-3, premium</span>
+  <span class="op">└──</span> <span class="lit">SILVER</span>    <span class="cmt">← rows 4-5, standard</span>
+
+<span class="kw">BookingStatus</span> <span class="op">(enum)</span>
+  <span class="op">├──</span> <span class="val">CREATED</span>
+  <span class="op">├──</span> <span class="cmt">CONFIRMED</span>
+  <span class="op">└──</span> <span class="err">EXPIRED</span>
+
+<span class="kw">MovieGenre</span> <span class="op">(enum)</span>
+  <span class="op">├──</span> <span class="val">ACTION</span>      <span class="op">├──</span> <span class="val">THRILLER</span>
+  <span class="op">├──</span> <span class="val">COMEDY</span>      <span class="op">├──</span> <span class="val">SCI_FI</span>
+  <span class="op">├──</span> <span class="val">DRAMA</span>       <span class="op">├──</span> <span class="val">ANIMATION</span>
+  <span class="op">├──</span> <span class="val">HORROR</span>      <span class="op">├──</span> <span class="val">DOCUMENTARY</span>
+  <span class="op">├──</span> <span class="val">ROMANCE</span>     <span class="op">└──</span> <span class="val">FANTASY</span>
+</pre>
+  </div>
+
+  <!-- ⑤ Strategy Pattern -->
+  <div class="card green">
+    <div class="card-title"><span class="dot"></span>Strategy Pattern — Seat Lock & Payment</div>
+    <pre>
+<span class="cmt">┌──────────────────────────────────────────┐</span>
+<span class="cmt">│         STRATEGY PATTERN                 │</span>
+<span class="cmt">└──────────────────────────────────────────┘</span>
+
+<span class="op">«interface»</span> <span class="kw">ISeatLockProvider</span>
+  <span class="op">├──</span> lockSeats(show, seats, user)
+  <span class="op">├──</span> unlockSeats(show, seats, user)
+  <span class="op">├──</span> validateLock(show, seat, user)
+  <span class="op">└──</span> getLockedSeats(show)
+       <span class="op">▲</span>
+       <span class="op">│ implements</span>
+  <span class="kw">SeatLockProvider</span>
+    <span class="op">  locks: Map&lt;Show, Map&lt;Seat, SeatLock&gt;&gt;</span>
+    <span class="op">  lockTimeout: int (seconds)</span>
+
+<span class="op">«interface»</span> <span class="kw">PaymentStrategy</span>
+  <span class="op">└──</span> processPayment() : boolean
+       <span class="op">▲</span>
+       <span class="op">├──</span> <span class="kw">DebitCardStrategy</span>  <span class="cmt">→ returns true</span>
+       <span class="op">└──</span> <span class="kw">UpiStrategy</span>        <span class="cmt">→ returns false</span>
+</pre>
+  </div>
+
+  <!-- ⑥ Controller → Service -->
+  <div class="card violet full">
+    <div class="card-title"><span class="dot"></span>Controller → Service Architecture (Clean Layered)</div>
+    <pre>
+<span class="cmt">┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="cmt">│                              CONTROLLER → SERVICE PATTERN                                                │</span>
+<span class="cmt">└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="cmt">  [ CLIENT / Main.java ]</span>
+         <span class="op">│</span>
+         <span class="op">▼</span>
+<span class="op">┌────────────────┐   ┌─────────────────┐   ┌──────────────────┐   ┌─────────────────┐   ┌──────────────────┐</span>
+<span class="op">│</span> <span class="kw">MovieController</span> <span class="op">│   │</span> <span class="kw">TheatreController</span><span class="op">│   │</span>  <span class="kw">ShowController</span>  <span class="op">│   │</span> <span class="kw">BookingController</span><span class="op">│   │</span> <span class="kw">PaymentController</span><span class="op">│</span>
+<span class="op">│ createMovie()  │   │ createTheatre() │   │ createShow()     │   │ createBooking() │   │ processPayment() │</span>
+<span class="op">└───────┬────────┘   └────────┬────────┘   └────────┬─────────┘   └────────┬────────┘   └────────┬─────────┘</span>
+        <span class="op">│                    │                     │                      │                    │</span>
+        <span class="op">▼                    ▼                     ▼                      ▼                    ▼</span>
+<span class="op">┌────────────────┐   ┌─────────────────┐   ┌──────────────────┐   ┌─────────────────┐   ┌──────────────────┐</span>
+<span class="op">│</span> <span class="val">MovieService</span>   <span class="op">│   │</span> <span class="val">TheatreService</span>  <span class="op">│   │</span>  <span class="val">ShowService</span>     <span class="op">│   │</span> <span class="val">BookingService</span>  <span class="op">│   │</span>  <span class="val">PaymentService</span>  <span class="op">│</span>
+<span class="op">│ movies: Map    │   │ theatres: Map   │   │ shows: Map       │   │ bookings: Map   │   │ bookingFailures  │</span>
+<span class="op">│ counter: int   │   │ screens: Map    │   │ counter: int     │   │ counter: int    │   │ paymentStrategy  │</span>
+<span class="op">│                │   │ seats: Map      │   │                  │   │ lockProvider    │   │                  │</span>
+<span class="op">└────────────────┘   │ counters: int×3 │   └──────────────────┘   └────────────────-┘   └──────────────────┘</span>
+                     <span class="op">└─────────────────┘                                  │</span>
+                                                                        <span class="op">│  uses</span>
+                                                                        <span class="op">▼</span>
+                                                             <span class="kw">ISeatLockProvider</span>
+                                                              <span class="op">└──▶ SeatLockProvider</span>
+                                                                   <span class="op">Map&lt;Show,Map&lt;Seat,SeatLock&gt;&gt;</span>
+</pre>
+  </div>
+
+  <!-- ⑦ SeatLock Lifecycle -->
+  <div class="card teal">
+    <div class="card-title"><span class="dot"></span>SeatLock — Lifecycle</div>
+    <pre>
+<span class="kw">SeatLock</span>
+  <span class="op">│   seat            : Seat</span>
+  <span class="op">│   show            : Show</span>
+  <span class="op">│   timeoutInSeconds: int</span>
+  <span class="op">│   lockTime        : Date</span>
+  <span class="op">│   lockedBy        : User</span>
+
+  <span class="op">isLockExpired()</span>
+    <span class="op">└──▶</span> lockTime + timeout &lt; now
+         <span class="op">├──</span> <span class="val">false</span> <span class="cmt">→ lock still valid</span>
+         <span class="op">└──</span> <span class="err">true</span>  <span class="cmt">→ seat free again</span>
+
+<span class="cmt">Timeline:</span>
+<span class="op"> t=0s ──────── t=600s ──────── t=∞</span>
+ <span class="val">LOCKED</span>         <span class="err">EXPIRED</span>
+ <span class="op">[=============]</span>
+      <span class="op">▲ 10 min window</span>
+      <span class="op">user must confirm + pay</span>
+</pre>
+  </div>
+
+  <!-- ⑧ Concurrency -->
+  <div class="card orange">
+    <div class="card-title"><span class="dot"></span>Concurrency — Seat Race Condition</div>
+    <pre>
+<span class="cmt">┌───────────────────────────────────────────┐</span>
+<span class="cmt">│  Two users fight for overlapping seats    │</span>
+<span class="cmt">└───────────────────────────────────────────┘</span>
+
+<span class="val">User1</span> wants seats <span class="lit">[5, 6, 7]</span>
+<span class="err">User2</span> wants seats <span class="lit">[7, 8, 9]</span>  <span class="cmt">← seat 7 overlaps!</span>
+
+         <span class="val">Thread-1</span>          <span class="err">Thread-2</span>
+            <span class="op">│</span>                  <span class="op">│</span>
+            <span class="op">▼</span>                  <span class="op">▼</span>
+     <span class="op">lockSeats()</span>        <span class="op">lockSeats()</span>
+     <span class="op">synchronized {</span>     <span class="op">synchronized {</span>
+       <span class="val">check seat 7</span>       <span class="err">check seat 7</span>
+       <span class="op">→ free, lock it     → already locked!</span>
+       <span class="val">✔ SUCCESS</span>          <span class="err">✘ EXCEPTION</span>
+     <span class="op">}</span>                  <span class="op">}</span>
+
+<span class="cmt">  ✔ Only one thread acquires the lock.</span>
+<span class="cmt">  ✔ ConcurrentHashMap + synchronized block</span>
+<span class="cmt">     ensures atomicity.</span>
+</pre>
+  </div>
+
+  <!-- ⑨ Package Structure -->
+  <div class="card green">
+    <div class="card-title"><span class="dot"></span>Package Structure</div>
+    <pre>
+<span class="kw">org.example</span>
+  <span class="op">├──</span> <span class="val">Main.java</span>
+  <span class="op">│</span>
+  <span class="op">├──</span> <span class="kw">enums/</span>
+  <span class="op">│     ├──</span> <span class="val">BookingStatus.java</span>
+  <span class="op">│     ├──</span> <span class="val">SeatCategory.java</span>
+  <span class="op">│     └──</span> <span class="val">MovieGenre.java</span>
+  <span class="op">│</span>
+  <span class="op">├──</span> <span class="kw">models/</span>
+  <span class="op">│     ├──</span> <span class="val">Movie.java</span>
+  <span class="op">│     ├──</span> <span class="val">Seat.java</span>
+  <span class="op">│     ├──</span> <span class="val">Screen.java</span>
+  <span class="op">│     ├──</span> <span class="val">Theatre.java</span>
+  <span class="op">│     ├──</span> <span class="val">Show.java</span>
+  <span class="op">│     ├──</span> <span class="val">User.java</span>
+  <span class="op">│     ├──</span> <span class="val">Booking.java</span>
+  <span class="op">│     └──</span> <span class="val">SeatLock.java</span>
+  <span class="op">│</span>
+  <span class="op">├──</span> <span class="kw">strategies/</span>
+  <span class="op">│     ├──</span> <span class="val">ISeatLockProvider.java</span>
+  <span class="op">│     ├──</span> <span class="val">SeatLockProvider.java</span>
+  <span class="op">│     ├──</span> <span class="val">PaymentStrategy.java</span>
+  <span class="op">│     ├──</span> <span class="val">DebitCardStrategy.java</span>
+  <span class="op">│     └──</span> <span class="val">UpiStrategy.java</span>
+  <span class="op">│</span>
+  <span class="op">├──</span> <span class="kw">services/</span>
+  <span class="op">│     ├──</span> <span class="val">MovieService.java</span>
+  <span class="op">│     ├──</span> <span class="val">TheatreService.java</span>
+  <span class="op">│     ├──</span> <span class="val">ShowService.java</span>
+  <span class="op">│     ├──</span> <span class="val">SeatAvailabilityService.java</span>
+  <span class="op">│     ├──</span> <span class="val">BookingService.java</span>
+  <span class="op">│     └──</span> <span class="val">PaymentService.java</span>
+  <span class="op">│</span>
+  <span class="op">└──</span> <span class="kw">controllers/</span>
+        <span class="op">├──</span> <span class="val">MovieController.java</span>
+        <span class="op">├──</span> <span class="val">TheatreController.java</span>
+        <span class="op">├──</span> <span class="val">ShowController.java</span>
+        <span class="op">├──</span> <span class="val">BookingController.java</span>
+        <span class="op">└──</span> <span class="val">PaymentController.java</span>
+</pre>
+  </div>
+
+  <!-- ⑩ Full E2E Flow -->
+  <div class="card pink full">
+    <div class="card-title"><span class="dot"></span>End-to-End Booking Flow</div>
+    <pre>
+<span class="cmt">┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="cmt">│                                        END-TO-END BOOKING FLOW                                                          │</span>
+<span class="cmt">└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+
+  <span class="val">1. SETUP</span>
+     <span class="op">TheatreController.createTheatre("PVR")</span>        <span class="op">──▶</span> <span class="kw">Theatre</span> <span class="lit">[id=1]</span>
+     <span class="op">TheatreController.createScreenInTheatre(...)</span>  <span class="op">──▶</span> <span class="kw">Screen</span>  <span class="lit">[id=1]</span>
+     <span class="op">TheatreController.createSeatInScreen(...)  ×50</span> <span class="op">──▶</span> <span class="kw">Seat</span>    <span class="lit">[id=1..50]</span>
+     <span class="op">MovieController.createMovie("Inception", 150)</span>  <span class="op">──▶</span> <span class="kw">Movie</span>   <span class="lit">[id=1]</span>
+     <span class="op">ShowController.createShow(movieId, screenId, t)</span> <span class="op">──▶</span> <span class="kw">Show</span>    <span class="lit">[id=1]</span>
+
+  <span class="val">2. CHECK AVAILABILITY</span>
+     <span class="op">ShowController.getAvailableSeats(showId)</span>
+       <span class="op">└──▶ SeatAvailabilityService.getAvailableSeats(show)</span>
+              <span class="op">├── allSeats      = screen.getSeats()          [50 seats]</span>
+              <span class="op">├── bookedSeats   = bookingService.getBookedSeats(show)  [0]</span>
+              <span class="op">├── lockedSeats   = seatLockProvider.getLockedSeats(show) [0]</span>
+              <span class="op">└── available     = allSeats - unavailable        [50 seats]</span>
+
+  <span class="val">3. CREATE BOOKING</span>
+     <span class="op">BookingController.createBooking(user, showId, [1,2,3])</span>
+       <span class="op">├── isAnySeatAlreadyBooked?  ──▶ NO</span>
+       <span class="op">├── seatLockProvider.lockSeats(show, [s1,s2,s3], user)</span>
+       <span class="op">│     └── synchronized { check + lock all 3 seats atomically }</span>
+       <span class="op">└── new Booking(id="1", show, user, seats)</span>  <span class="val">status: CREATED</span>
+
+  <span class="val">4. PROCESS PAYMENT</span>
+     <span class="op">PaymentController.processPayment(bookingId, user)</span>
+       <span class="op">├──▶ paymentStrategy.processPayment()</span>
+       <span class="op">│     ├──</span> <span class="val">DebitCardStrategy → true</span>  <span class="op">──▶ confirmBooking()</span>
+       <span class="op">│     └──</span> <span class="err">UpiStrategy       → false</span> <span class="op">──▶ processPaymentFailed()</span>
+       <span class="op">└──▶ bookingService.confirmBooking(booking, user)</span>
+              <span class="op">├── user matches?          ──▶ YES</span>
+              <span class="op">├── validateLock(s1,user)  ──▶ valid &amp; not expired</span>
+              <span class="op">├── validateLock(s2,user)  ──▶ valid &amp; not expired</span>
+              <span class="op">├── validateLock(s3,user)  ──▶ valid &amp; not expired</span>
+              <span class="op">└── booking.confirmBooking()</span>  <span class="cmt">status: CONFIRMED ✔</span>
+
+  <span class="val">5. RESULT</span>
+     <span class="op">booking.getBookingStatus()  ──▶</span> <span class="cmt">CONFIRMED</span>
+     <span class="op">getAvailableSeats(showId)   ──▶</span> <span class="lit">47 seats</span> <span class="op">(seats 1,2,3 now booked)</span>
+</pre>
+  </div>
+
+</div><!-- /grid -->
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><span class="sym kw">purple</span> — Class / Interface names</div>
+  <div class="legend-item"><span class="sym val">teal</span> — Values / Success states</div>
+  <div class="legend-item"><span class="sym lit">orange</span> — Literals / IDs</div>
+  <div class="legend-item"><span class="sym err">pink</span> — Error / Expired states</div>
+  <div class="legend-item"><span class="sym cmt">green</span> — Comments / Confirmed states</div>
+  <div class="legend-item"><span class="sym op">──▶</span> — relationship / flow direction</div>
+  <div class="legend-item"><span class="sym op">▲ implements</span> — interface implementation</div>
+</div>
+
+</body>
+</html>
