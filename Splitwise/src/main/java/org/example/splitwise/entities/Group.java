@@ -3,7 +3,9 @@ package org.example.splitwise.entities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
 
+@Getter
 public class Group {
   private final String id;
   private final String name;
@@ -15,14 +17,7 @@ public class Group {
     this.members = members;
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
+  // Returns a defensive copy to protect internal state
   public List<User> getMembers() {
     return new ArrayList<>(members);
   }

@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.example.enums.ResidentDecision;
 import org.example.enums.VisitorType;
 import org.example.model.House;

@@ -1,5 +1,8 @@
 package org.example.splitwise.entities;
 
+import lombok.Getter;
+
+@Getter
 public class Transaction {
   private final User from;
   private final User to;

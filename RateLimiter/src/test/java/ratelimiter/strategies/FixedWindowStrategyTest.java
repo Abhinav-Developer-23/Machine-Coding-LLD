@@ -85,8 +85,8 @@ class FixedWindowStrategyTest {
     // 2 requests per 1-second window
     FixedWindowStrategy s = new FixedWindowStrategy(2, 1);
 
-    assertTrue(s.allowRequest(USER_A));  // 1
-    assertTrue(s.allowRequest(USER_A));  // 2
+    assertTrue(s.allowRequest(USER_A)); // 1
+    assertTrue(s.allowRequest(USER_A)); // 2
     assertFalse(s.allowRequest(USER_A)); // denied
 
     // Wait for the window to expire
@@ -179,20 +179,21 @@ class FixedWindowStrategyTest {
     CountDownLatch latch = new CountDownLatch(totalThreads);
 
     for (int i = 0; i < totalThreads; i++) {
-      executor.submit(() -> {
-        if (s.allowRequest(USER_A)) allowed.incrementAndGet();
-        else denied.incrementAndGet();
-        latch.countDown();
-      });
+      executor.submit(
+          () -> {
+            if (s.allowRequest(USER_A)) allowed.incrementAndGet();
+            else denied.incrementAndGet();
+            latch.countDown();
+          });
     }
 
     latch.await(5, TimeUnit.SECONDS);
     executor.shutdown();
 
-    assertEquals(maxRequests, allowed.get(),
-        "Exactly maxRequests threads should have been allowed");
-    assertEquals(totalThreads - maxRequests, denied.get(),
-        "Remaining threads should have been denied");
+    assertEquals(
+        maxRequests, allowed.get(), "Exactly maxRequests threads should have been allowed");
+    assertEquals(
+        totalThreads - maxRequests, denied.get(), "Remaining threads should have been denied");
   }
 
   @Test
@@ -207,14 +208,16 @@ class FixedWindowStrategyTest {
 
     for (int u = 0; u < userCount; u++) {
       String userId = "user-" + u;
-      futures.add(executor.submit(() -> {
-        int allowed = 0;
-        // Each user fires maxRequests + 2 times
-        for (int r = 0; r < maxRequests + 2; r++) {
-          if (s.allowRequest(userId)) allowed++;
-        }
-        return allowed;
-      }));
+      futures.add(
+          executor.submit(
+              () -> {
+                int allowed = 0;
+                // Each user fires maxRequests + 2 times
+                for (int r = 0; r < maxRequests + 2; r++) {
+                  if (s.allowRequest(userId)) allowed++;
+                }
+                return allowed;
+              }));
     }
 
     executor.shutdown();
@@ -222,8 +225,7 @@ class FixedWindowStrategyTest {
 
     for (Future<Integer> f : futures) {
       try {
-        assertEquals(maxRequests, f.get(),
-            "Each user should have exactly maxRequests allowed");
+        assertEquals(maxRequests, f.get(), "Each user should have exactly maxRequests allowed");
       } catch (ExecutionException e) {
         fail("Unexpected exception: " + e.getMessage());
       }

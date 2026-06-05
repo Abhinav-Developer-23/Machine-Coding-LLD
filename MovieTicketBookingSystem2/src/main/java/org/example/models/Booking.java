@@ -1,10 +1,8 @@
 package org.example.models;
 
 import java.util.List;
-
-import org.example.enums.BookingStatus;
-
 import lombok.Getter;
+import org.example.enums.BookingStatus;
 
 @Getter
 public class Booking {

@@ -1,9 +1,8 @@
 package org.example.models;
 
-import org.example.enums.SeatCategory;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.example.enums.SeatCategory;
 
 @Getter
 @AllArgsConstructor

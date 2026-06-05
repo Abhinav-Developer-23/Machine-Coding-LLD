@@ -1,17 +1,19 @@
-package org.example.splitwise.service;
+package org.example.splitwise;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import lombok.Getter;
 import org.example.splitwise.entities.Expense;
 import org.example.splitwise.entities.Group;
 import org.example.splitwise.entities.Split;
 import org.example.splitwise.entities.Transaction;
 import org.example.splitwise.entities.User;
-
+@Getter
 public class SplitwiseService {
   private static SplitwiseService instance;
   private final Map<String, User> users = new HashMap<>();
@@ -39,13 +41,7 @@ public class SplitwiseService {
     return group;
   }
 
-  public User getUser(String id) {
-    return users.get(id);
-  }
 
-  public Group getGroup(String id) {
-    return groups.get(id);
-  }
 
   // --- Core Functional Methods (Facade) ---
   public synchronized void createExpense(Expense.ExpenseBuilder builder) {
@@ -102,13 +98,28 @@ public class SplitwiseService {
     }
 
     // Separate into creditors and debtors
-    List<Map.Entry<User, Double>> creditors =
-        netBalances.entrySet().stream().filter(e -> e.getValue() > 0).collect(Collectors.toList());
-    List<Map.Entry<User, Double>> debtors =
-        netBalances.entrySet().stream().filter(e -> e.getValue() < 0).collect(Collectors.toList());
+    List<Map.Entry<User, Double>> creditors = new ArrayList<>();
+    List<Map.Entry<User, Double>> debtors = new ArrayList<>();
+    for (Map.Entry<User, Double> entry : netBalances.entrySet()) {
+      if (entry.getValue() > 0) {
+        creditors.add(entry);
+      } else if (entry.getValue() < 0) {
+        debtors.add(entry);
+      }
+    }
 
-    creditors.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-    debtors.sort(Map.Entry.comparingByValue());
+    creditors.sort(new Comparator<Map.Entry<User, Double>>() {
+        @Override
+        public int compare(Map.Entry<User, Double> a, Map.Entry<User, Double> b) {
+            return Double.compare(b.getValue(), a.getValue()); // descending
+        }
+    });
+    debtors.sort(new Comparator<Map.Entry<User, Double>>() {
+        @Override
+        public int compare(Map.Entry<User, Double> a, Map.Entry<User, Double> b) {
+            return Double.compare(a.getValue(), b.getValue()); // ascending
+        }
+    });
 
     List<Transaction> transactions = new ArrayList<>();
     int i = 0, j = 0;

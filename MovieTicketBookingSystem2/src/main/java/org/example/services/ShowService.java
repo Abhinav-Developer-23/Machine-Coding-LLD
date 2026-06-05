@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.example.models.Movie;
 import org.example.models.Screen;
 import org.example.models.Show;

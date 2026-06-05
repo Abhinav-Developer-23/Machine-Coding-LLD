@@ -1,9 +1,8 @@
 package org.example.models;
 
-import org.example.enums.MovieGenre;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.example.enums.MovieGenre;
 
 @Getter
 @AllArgsConstructor

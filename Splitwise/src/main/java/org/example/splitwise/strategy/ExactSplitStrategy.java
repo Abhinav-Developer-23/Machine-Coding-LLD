@@ -12,8 +12,11 @@ public class ExactSplitStrategy implements SplitStrategy {
     if (participants.size() != splitValues.size()) {
       throw new IllegalArgumentException("Number of participants and split values must match.");
     }
-    if (Math.abs(splitValues.stream().mapToDouble(Double::doubleValue).sum() - totalAmount)
-        > 0.01) {
+    double sum = 0;
+    for (double v : splitValues) {
+      sum += v;
+    }
+    if (Math.abs(sum - totalAmount) > 0.01) {
       throw new IllegalArgumentException(
           "Sum of exact amounts must equal the total expense amount.");
     }

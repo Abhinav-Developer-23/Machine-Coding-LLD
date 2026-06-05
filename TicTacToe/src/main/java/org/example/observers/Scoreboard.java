@@ -1,7 +1,6 @@
 package org.example.observers;
 
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.example.Game;
 import org.example.models.Player;
 

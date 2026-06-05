@@ -2,7 +2,6 @@ package org.example.models;
 
 import java.time.Instant;
 import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 

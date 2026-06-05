@@ -1,7 +1,6 @@
 package org.example.model;
 
 import java.time.LocalDateTime;
-
 import org.example.enums.RequestStatus;
 import org.example.enums.ResidentDecision;
 import org.example.enums.VisitorType;

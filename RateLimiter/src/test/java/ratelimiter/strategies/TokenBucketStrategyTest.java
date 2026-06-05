@@ -83,7 +83,7 @@ class TokenBucketStrategyTest {
     // 1 token capacity, 2 tokens/second refill
     TokenBucketStrategy s = new TokenBucketStrategy(1, 2);
 
-    assertTrue(s.allowRequest(USER_A));  // consumes the only token
+    assertTrue(s.allowRequest(USER_A)); // consumes the only token
     assertFalse(s.allowRequest(USER_A)); // empty
 
     Thread.sleep(600); // > 500ms → at least 1 token refilled
@@ -123,8 +123,8 @@ class TokenBucketStrategyTest {
 
     Thread.sleep(2100); // ~2 seconds → 2 tokens refilled
 
-    assertTrue(s.allowRequest(USER_A));  // token 1
-    assertTrue(s.allowRequest(USER_A));  // token 2
+    assertTrue(s.allowRequest(USER_A)); // token 1
+    assertTrue(s.allowRequest(USER_A)); // token 2
     assertFalse(s.allowRequest(USER_A)); // no more yet
   }
 
@@ -134,12 +134,12 @@ class TokenBucketStrategyTest {
     // 1 token capacity, 2 tokens/sec refill
     TokenBucketStrategy s = new TokenBucketStrategy(1, 2);
 
-    assertTrue(s.allowRequest(USER_A));  // consumes token
+    assertTrue(s.allowRequest(USER_A)); // consumes token
     assertFalse(s.allowRequest(USER_A)); // empty
 
     Thread.sleep(600); // enough for 1 refill
 
-    assertTrue(s.allowRequest(USER_A));  // refilled
+    assertTrue(s.allowRequest(USER_A)); // refilled
     assertFalse(s.allowRequest(USER_A)); // empty again
   }
 
@@ -198,20 +198,20 @@ class TokenBucketStrategyTest {
     CountDownLatch latch = new CountDownLatch(totalThreads);
 
     for (int i = 0; i < totalThreads; i++) {
-      executor.submit(() -> {
-        if (s.allowRequest(USER_A)) allowed.incrementAndGet();
-        else denied.incrementAndGet();
-        latch.countDown();
-      });
+      executor.submit(
+          () -> {
+            if (s.allowRequest(USER_A)) allowed.incrementAndGet();
+            else denied.incrementAndGet();
+            latch.countDown();
+          });
     }
 
     latch.await(5, TimeUnit.SECONDS);
     executor.shutdown();
 
-    assertEquals(capacity, allowed.get(),
-        "Allowed count must equal initial capacity");
-    assertEquals(totalThreads - capacity, denied.get(),
-        "Denied count must be totalThreads - capacity");
+    assertEquals(capacity, allowed.get(), "Allowed count must equal initial capacity");
+    assertEquals(
+        totalThreads - capacity, denied.get(), "Denied count must be totalThreads - capacity");
   }
 
   @Test
@@ -226,13 +226,15 @@ class TokenBucketStrategyTest {
 
     for (int u = 0; u < userCount; u++) {
       String userId = "user-" + u;
-      futures.add(executor.submit(() -> {
-        int allowed = 0;
-        for (int r = 0; r < capacity + 3; r++) {
-          if (s.allowRequest(userId)) allowed++;
-        }
-        return allowed;
-      }));
+      futures.add(
+          executor.submit(
+              () -> {
+                int allowed = 0;
+                for (int r = 0; r < capacity + 3; r++) {
+                  if (s.allowRequest(userId)) allowed++;
+                }
+                return allowed;
+              }));
     }
 
     executor.shutdown();
@@ -240,8 +242,7 @@ class TokenBucketStrategyTest {
 
     for (Future<Integer> f : futures) {
       try {
-        assertEquals(capacity, f.get(),
-            "Each user should have exactly capacity requests allowed");
+        assertEquals(capacity, f.get(), "Each user should have exactly capacity requests allowed");
       } catch (ExecutionException e) {
         fail("Unexpected exception: " + e.getMessage());
       }

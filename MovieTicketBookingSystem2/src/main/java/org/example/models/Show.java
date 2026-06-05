@@ -1,7 +1,6 @@
 package org.example.models;
 
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

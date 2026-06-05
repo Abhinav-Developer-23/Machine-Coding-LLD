@@ -2,7 +2,6 @@ package org.example.services;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.example.enums.MovieGenre;
 import org.example.models.Movie;
 

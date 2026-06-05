@@ -3,8 +3,10 @@ package org.example.splitwise.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
 import org.example.splitwise.strategy.SplitStrategy;
 
+@Getter
 public class Expense {
   private final String id;
   private final String description;
@@ -24,26 +26,6 @@ public class Expense {
     this.splits =
         builder.splitStrategy.calculateSplits(
             builder.amount, builder.paidBy, builder.participants, builder.splitValues);
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public double getAmount() {
-    return amount;
-  }
-
-  public User getPaidBy() {
-    return paidBy;
-  }
-
-  public List<Split> getSplits() {
-    return splits;
   }
 
   // --- Builder Pattern ---

@@ -3,7 +3,6 @@ package org.example;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import org.example.controllers.*;
 import org.example.enums.MovieGenre;
 import org.example.enums.SeatCategory;

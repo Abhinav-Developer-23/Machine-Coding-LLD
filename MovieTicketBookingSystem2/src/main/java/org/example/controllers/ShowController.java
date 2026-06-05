@@ -3,7 +3,6 @@ package org.example.controllers;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.example.models.Movie;
 import org.example.models.Screen;
 import org.example.models.Seat;

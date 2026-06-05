@@ -2,7 +2,6 @@ package org.example.services;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.example.models.Seat;
 import org.example.models.Show;
 import org.example.strategies.ISeatLockProvider;

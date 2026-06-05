@@ -3,7 +3,6 @@ package org.example.strategies;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
 import org.example.models.Seat;
 import org.example.models.SeatLock;
 import org.example.models.Show;

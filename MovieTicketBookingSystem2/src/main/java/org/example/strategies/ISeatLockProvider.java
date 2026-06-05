@@ -1,7 +1,6 @@
 package org.example.strategies;
 
 import java.util.List;
-
 import org.example.models.Seat;
 import org.example.models.Show;
 import org.example.models.User;

@@ -1,7 +1,6 @@
 package org.example;
 
 import java.util.List;
-
 import org.example.enums.ResidentDecision;
 import org.example.enums.VisitorType;
 import org.example.model.House;

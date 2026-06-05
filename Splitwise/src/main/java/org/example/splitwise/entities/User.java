@@ -1,7 +1,9 @@
 package org.example.splitwise.entities;
 
 import java.util.UUID;
+import lombok.Getter;
 
+@Getter
 public class User {
   private final String id;
   private final String name;
@@ -13,17 +15,5 @@ public class User {
     this.name = name;
     this.email = email;
     this.balanceSheet = new BalanceSheet(this);
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public BalanceSheet getBalanceSheet() {
-    return balanceSheet;
   }
 }

@@ -3,7 +3,6 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.example.enums.GameStatus;
 import org.example.enums.Symbol;
 import org.example.exceptions.InvalidMoveException;

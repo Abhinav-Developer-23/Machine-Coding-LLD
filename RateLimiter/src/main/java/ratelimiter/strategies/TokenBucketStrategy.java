@@ -22,7 +22,7 @@ public class TokenBucketStrategy implements RateLimitingStrategy {
     synchronized (bucket) {
       bucket.refill(currentTime);
       if (bucket.tokens > 0) {
-           bucket.tokens--;
+        bucket.tokens--;
         return true;
       } else {
         return false;

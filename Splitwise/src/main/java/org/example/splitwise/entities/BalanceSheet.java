@@ -2,7 +2,9 @@ package org.example.splitwise.entities;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.Getter;
 
+@Getter
 public class BalanceSheet {
   private final User owner;
   // A map where:
@@ -16,15 +18,16 @@ public class BalanceSheet {
     this.owner = owner;
   }
 
-  public Map<User, Double> getBalances() {
-    return balances;
-  }
-
   public synchronized void adjustBalance(User otherUser, double amount) {
     if (owner.equals(otherUser)) {
       return; // Cannot owe yourself
     }
-    balances.merge(otherUser, amount, Double::sum);
+    double newBalance = balances.getOrDefault(otherUser, 0.0) + amount;
+    if (Math.abs(newBalance) < 0.01) {
+      balances.remove(otherUser); // fully settled, clean up the entry
+    } else {
+      balances.put(otherUser, newBalance);
+    }
   }
 
   public void showBalances() {
@@ -49,7 +52,8 @@ public class BalanceSheet {
                 + " $"
                 + String.format("%.2f", amount));
         totalOwedToMe += amount;
-      } else if (amount < -0.01) {
+      }
+      else if (amount < -0.01) {
         System.out.println(
             owner.getName()
                 + " owes "

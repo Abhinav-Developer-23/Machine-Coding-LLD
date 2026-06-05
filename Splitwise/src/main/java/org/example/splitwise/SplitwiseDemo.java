@@ -6,7 +6,6 @@ import org.example.splitwise.entities.Expense;
 import org.example.splitwise.entities.Group;
 import org.example.splitwise.entities.Transaction;
 import org.example.splitwise.entities.User;
-import org.example.splitwise.service.SplitwiseService;
 import org.example.splitwise.strategy.EqualSplitStrategy;
 import org.example.splitwise.strategy.ExactSplitStrategy;
 import org.example.splitwise.strategy.PercentageSplitStrategy;
@@ -22,7 +21,7 @@ public class SplitwiseDemo {
     User charlie = service.addUser("Charlie", "charlie@c.com");
     User david = service.addUser("David", "david@d.com");
 
-    Group friendsGroup = service.addGroup("Friends Trip", List.of(alice, bob, charlie, david));
+    Group friendsGroup = service.addGroup("Friends Trip", Arrays.asList(alice, bob, charlie, david));
 
     System.out.println("--- System Setup Complete ---\n");
 
@@ -82,7 +81,9 @@ public class SplitwiseDemo {
     if (simplifiedDebts.isEmpty()) {
       System.out.println("All debts are settled within the group!");
     } else {
-      simplifiedDebts.forEach(System.out::println);
+      for (Transaction t : simplifiedDebts) {
+        System.out.println(t);
+      }
     }
     System.out.println();
 

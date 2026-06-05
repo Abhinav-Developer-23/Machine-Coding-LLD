@@ -2,7 +2,6 @@ package org.example.services;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.example.enums.SeatCategory;
 import org.example.models.Screen;
 import org.example.models.Seat;
