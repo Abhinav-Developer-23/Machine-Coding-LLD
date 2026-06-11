@@ -36,6 +36,7 @@
         <module>ATM</module>
         <module>MovieTicketBookingSystem2</module>
         <module>RateLimiter</module>
+        <module>LibraryManagementSystem</module>
     </modules>
 
     <properties>
