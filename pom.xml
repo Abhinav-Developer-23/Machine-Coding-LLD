@@ -37,6 +37,7 @@
         <module>MovieTicketBookingSystem2</module>
         <module>RateLimiter</module>
         <module>LibraryManagementSystem</module>
+        <module>HotelManagementSystem</module>
     </modules>
 
     <properties>
