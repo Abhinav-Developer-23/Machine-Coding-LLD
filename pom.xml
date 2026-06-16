@@ -38,6 +38,7 @@
         <module>RateLimiter</module>
         <module>LibraryManagementSystem</module>
         <module>HotelManagementSystem</module>
+        <module>RideHailingService</module>
     </modules>
 
     <properties>
