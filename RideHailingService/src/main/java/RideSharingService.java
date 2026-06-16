@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import enums.DriverStatus;
 import enums.RideType;
 import enums.TripStatus;
+import lombok.Setter;
 import models.Driver;
 import models.Location;
 import models.Rider;
@@ -21,7 +22,10 @@ public class RideSharingService {
     private final Map<String, Rider> riders = new ConcurrentHashMap<>();
     private final Map<String, Driver> drivers = new ConcurrentHashMap<>();
     private final Map<String, Trip> trips = new ConcurrentHashMap<>();
+    // Allow changing strategies at runtime for extensibility
+    @Setter
     private PricingStrategy pricingStrategy;
+    @Setter
     private DriverMatchingStrategy driverMatchingStrategy;
 
     private RideSharingService() {
@@ -34,15 +38,6 @@ public class RideSharingService {
             instance = new RideSharingService();
         }
         return instance;
-    }
-
-    // Allow changing strategies at runtime for extensibility
-    public void setPricingStrategy(PricingStrategy pricingStrategy) {
-        this.pricingStrategy = pricingStrategy;
-    }
-
-    public void setDriverMatchingStrategy(DriverMatchingStrategy driverMatchingStrategy) {
-        this.driverMatchingStrategy = driverMatchingStrategy;
     }
 
     public Rider registerRider(String name, String contact) {

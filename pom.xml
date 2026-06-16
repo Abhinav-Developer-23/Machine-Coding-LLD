@@ -39,6 +39,7 @@
         <module>LibraryManagementSystem</module>
         <module>HotelManagementSystem</module>
         <module>RideHailingService</module>
+        <module>ChatApplication</module>
     </modules>
 
     <properties>
