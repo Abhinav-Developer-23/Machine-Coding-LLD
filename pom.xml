@@ -41,6 +41,7 @@
         <module>RideHailingService</module>
         <module>ChatApplication</module>
         <module>SocialNetwork</module>
+        <module>NotificationSystem</module>
     </modules>
 
     <properties>
