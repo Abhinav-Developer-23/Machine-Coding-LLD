@@ -4,7 +4,10 @@ import paymentgateway.enums.PaymentStatus;
 import paymentgateway.model.PaymentRequest;
 import paymentgateway.model.PaymentResponse;
 
-public class CreditCardProcessor extends AbstractPaymentProcessor {
+public class
+
+
+CreditCardProcessor extends AbstractPaymentProcessor {
   @Override
   protected PaymentResponse doProcess(PaymentRequest request) {
     System.out.println(
