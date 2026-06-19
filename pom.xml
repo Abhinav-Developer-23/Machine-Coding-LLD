@@ -42,6 +42,7 @@
         <module>ChatApplication</module>
         <module>SocialNetwork</module>
         <module>NotificationSystem</module>
+        <module>PaymentGateway</module>
     </modules>
 
     <properties>
