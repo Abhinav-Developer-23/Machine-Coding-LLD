@@ -30,7 +30,6 @@
         <module>WebCrawler</module>
         <module>FileSystem</module>
         <module>S3</module>
-
         <module>VendingMachine</module>
         <module>LoggerSystem</module>
         <module>ATM</module>
