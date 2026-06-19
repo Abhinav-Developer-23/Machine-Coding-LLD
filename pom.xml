@@ -42,7 +42,6 @@
         <module>ChatApplication</module>
         <module>SocialNetwork</module>
         <module>NotificationSystem</module>
-        <module>ShoppingCart</module>
     </modules>
 
     <properties>
