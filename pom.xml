@@ -42,6 +42,8 @@
         <module>SocialNetwork</module>
         <module>NotificationSystem</module>
         <module>PaymentGateway</module>
+        <module>TaskScheduler</module>
+        <module>SimpleTaskScheduler</module>
     </modules>
 
     <properties>
