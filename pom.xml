@@ -46,6 +46,8 @@
         <module>SimpleTaskScheduler</module>
         <module>SearchEngine</module>
         <module>URLShortener</module>
+        <module>TaskManagementSystem</module>
+        <module>MusicStreamingSpotify</module>
     </modules>
 
     <properties>
@@ -74,14 +76,28 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.spotify.fmt</groupId>
-                <artifactId>fmt-maven-plugin</artifactId>
-                <version>2.23</version>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+                <configuration>
+                    <java>
+                        <googleJavaFormat>
+                            <version>1.19.2</version>
+                            <style>GOOGLE</style>
+                            <reflowLongStrings>true</reflowLongStrings>
+                        </googleJavaFormat>
+                        <importOrder>
+                            <order>java,javax,org,com</order>
+                        </importOrder>
+                        <removeUnusedImports />
+                    </java>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>check</goal>
                         </goals>
+                        <phase>verify</phase>
                     </execution>
                 </executions>
             </plugin>
