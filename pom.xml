@@ -48,6 +48,8 @@
         <module>URLShortener</module>
         <module>TaskManagementSystem</module>
         <module>MusicStreamingSpotify</module>
+        <module>StackOverflow</module>
+        <module>VersionControlSystem</module>
     </modules>
 
     <properties>
