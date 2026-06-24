@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.concurrent.atomic.AtomicInteger;
 import simpletaskscheduler.observer.LoggingObserver;
 import simpletaskscheduler.scheduler.TaskScheduler;
+import simpletaskscheduler.task.DataBackupTask;
 
 public class SimpleTaskSchedulerDemo {
   public static void main(String[] args) throws InterruptedException {
@@ -39,8 +40,11 @@ public class SimpleTaskSchedulerDemo {
     };
     scheduler.submit("HopelessTask", hopelessTask, 2);
 
+    // 5. Sample task — DataBackupTask with 1 retry
+    scheduler.submit("BackupTask", new DataBackupTask("/data/source", "/data/backup"), 1);
+
     // Wait for all tasks to finish
-    Thread.sleep(2000);
+    Thread.sleep(3000);
     scheduler.shutdown();
   }
 }
