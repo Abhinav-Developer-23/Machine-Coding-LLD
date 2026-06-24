@@ -45,6 +45,7 @@
         <module>TaskScheduler</module>
         <module>SimpleTaskScheduler</module>
         <module>SearchEngine</module>
+        <module>URLShortener</module>
     </modules>
 
     <properties>
